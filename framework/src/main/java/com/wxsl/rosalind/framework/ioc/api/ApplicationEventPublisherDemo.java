@@ -17,7 +17,6 @@ public class ApplicationEventPublisherDemo {
     ApplicationEventPublisher applicationEventPublisher;
 
     void publishEvent(@NonNull Product event) {
-        //com.wxsl.rosalind.framework.ioc.api.TransactionalEventListenerDemo.eventListener
         applicationEventPublisher.publishEvent(event);
     }
 

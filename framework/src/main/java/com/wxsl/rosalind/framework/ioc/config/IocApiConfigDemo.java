@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Configuration
-public class ApiConfigDemo {
+public class IocApiConfigDemo {
 
     private static final Map<Class<?>, Class<? extends PropertyEditor>> propertyEditorMap = ImmutableMap.<Class<?>, Class<? extends PropertyEditor>>builder()
             .put(LocalDateTime.class, LocalDateTimePropertyEditor.class)
@@ -30,12 +30,12 @@ public class ApiConfigDemo {
 
 
     @Bean
-    public PropertyEditorRegistrarDemo propertyEditorRegistrarDemo() {
+    public static PropertyEditorRegistrarDemo propertyEditorRegistrarDemo() {
         return new PropertyEditorRegistrarDemo();
     }
 
     @Bean
-    public CustomEditorConfigurer customEditorConfigurer() {
+    public static CustomEditorConfigurer customEditorConfigurer() {
         CustomEditorConfigurer customEditorConfigurer = new CustomEditorConfigurer();
         customEditorConfigurer.setCustomEditors(propertyEditorMap);
         customEditorConfigurer.setPropertyEditorRegistrars(new PropertyEditorRegistrar[]{propertyEditorRegistrarDemo()});
