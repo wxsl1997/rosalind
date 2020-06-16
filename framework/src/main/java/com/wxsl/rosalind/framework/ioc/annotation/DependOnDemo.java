@@ -2,7 +2,6 @@ package com.wxsl.rosalind.framework.ioc.annotation;
 
 import com.wxsl.rosalind.framework.ioc.model.Product;
 import lombok.Getter;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.DependsOn;
@@ -17,7 +16,7 @@ public class DependOnDemo implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

@@ -1,6 +1,6 @@
 package com.wxsl.rosalind.framework.aop.api;
 
-import com.wxsl.rosalind.framework.BaseFrameWorkTest;
+import com.wxsl.rosalind.base.BaseTest;
 import com.wxsl.rosalind.framework.aop.model.User;
 import com.wxsl.rosalind.framework.aop.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import static com.wxsl.rosalind.framework.aop.api.ProxyFactoryDemo.proxyFactory;
 
 @Slf4j
 @DisplayName("ProxyFactoryDemo")
-class ProxyFactoryDemoTest extends BaseFrameWorkTest {
+class ProxyFactoryDemoTest extends BaseTest {
 
     @Test
     @DisplayName("methodBeforeAdvice")
@@ -76,7 +76,7 @@ class ProxyFactoryDemoTest extends BaseFrameWorkTest {
     private void testAdvice(Advice advice) {
 
         //获取 被代理对象
-        UserService userService = applicationContext.getBean(UserService.class);
+        UserService userService = applicationContext().getBean(UserService.class);
 
         //获取 ProxyFactory, 设置前置增强
         ProxyFactory proxyFactory = proxyFactory(userService, advice);
@@ -85,7 +85,7 @@ class ProxyFactoryDemoTest extends BaseFrameWorkTest {
         UserService proxy = (UserService) proxyFactory.getProxy();
 
         //获取 用户实例
-        User user = applicationContext.getBean("hermia", User.class);
+        User user = applicationContext().getBean("hermia", User.class);
 
         //调用代理方法
         user = proxy.loginIn(user);

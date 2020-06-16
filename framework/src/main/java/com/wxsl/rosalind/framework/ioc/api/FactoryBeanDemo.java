@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 @AllArgsConstructor
 public class FactoryBeanDemo implements FactoryBean<MessageDigest> {
 
-    private String algorithm;
+    private final String algorithm;
 
     @Override
     public MessageDigest getObject() throws NoSuchAlgorithmException {

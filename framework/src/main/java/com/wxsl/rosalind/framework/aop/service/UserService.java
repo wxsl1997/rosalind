@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 
 
 @Slf4j
@@ -17,13 +17,13 @@ import javax.validation.constraints.NotNull;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserService {
 
-    public User loginIn(@NotNull User user) {
+    public User loginIn(@Nonnull User user) {
         log.info("login in :{}", user.getName());
         return user;
     }
 
     @ApiMethod
-    public User loginOut(@NotNull User user) {
+    public User loginOut(@Nonnull User user) {
         log.info("login out :{}", user.getName());
         return user;
     }

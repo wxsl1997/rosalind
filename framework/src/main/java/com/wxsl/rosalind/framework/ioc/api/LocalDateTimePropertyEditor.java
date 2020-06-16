@@ -12,7 +12,7 @@ public class LocalDateTimePropertyEditor extends PropertyEditorSupport {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
         if (!StringUtils.hasText(text)) {
             setValue(null);
             return;

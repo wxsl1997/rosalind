@@ -19,31 +19,31 @@ public class AspectJDemo {
 
     @Before("loginInPointCut() || loginOutPointCut()")
     public void before(JoinPoint joinPoint) {
-        log.info("args:{}", joinPoint.getArgs());
-        log.info("aspectj before");
+        log.debug("args:{}", joinPoint.getArgs());
+        log.debug("aspectj before");
     }
 
     @After("loginInPointCut() || loginOutPointCut()")
     public void after() {
-        log.info("aspectj after");
+        log.debug("aspectj after");
     }
 
     @AfterReturning("loginInPointCut() || loginOutPointCut()")
     public void afterReturning() {
-        log.info("aspectj after return");
+        log.debug("aspectj after return");
     }
 
     @AfterThrowing("loginInPointCut() || loginOutPointCut()")
     public void afterThrowing() {
-        log.info("aspectj after throw");
+        log.debug("aspectj after throw");
     }
 
     @Around("loginInPointCut() || loginOutPointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        log.info("aspectj around before");
+        log.debug("aspectj around before");
         Object result = proceedingJoinPoint.proceed();
-        log.info("result:{}", result);
-        log.info("aspectj around after");
+        log.debug("result:{}", result);
+        log.debug("aspectj around after");
         return result;
     }
 }

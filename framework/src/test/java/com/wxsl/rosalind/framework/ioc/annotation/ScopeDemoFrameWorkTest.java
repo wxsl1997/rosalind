@@ -1,18 +1,17 @@
 package com.wxsl.rosalind.framework.ioc.annotation;
 
-import com.wxsl.rosalind.framework.BaseFrameWorkTest;
+import com.wxsl.rosalind.base.BaseTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("scopeDemo")
-class ScopeDemoFrameWorkTest extends BaseFrameWorkTest {
+class ScopeDemoFrameWorkTest extends BaseTest {
 
     @Test
     @DisplayName("scope")
     void scopeDemo() {
-        LookupDemo lookupDemo = applicationContext.getBean("lookupDemo", LookupDemo.class);
+        LookupDemo lookupDemo = applicationContext().getBean("lookupDemo", LookupDemo.class);
         Assertions.assertNotSame(lookupDemo.getScopeDemo(), lookupDemo.getScopeDemo());
-        applicationContext.close();
     }
 }

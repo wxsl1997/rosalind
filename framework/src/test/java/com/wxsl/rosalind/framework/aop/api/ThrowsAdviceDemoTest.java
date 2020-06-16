@@ -1,6 +1,6 @@
 package com.wxsl.rosalind.framework.aop.api;
 
-import com.wxsl.rosalind.framework.BaseFrameWorkTest;
+import com.wxsl.rosalind.base.BaseTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import static com.wxsl.rosalind.framework.aop.api.ProxyFactoryDemo.proxyFactory;
 
 @Slf4j
 @DisplayName("ThrowsAdviceDemo")
-class ThrowsAdviceDemoTest extends BaseFrameWorkTest {
+class ThrowsAdviceDemoTest extends BaseTest {
 
     @Test
     @DisplayName("testException")

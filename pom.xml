@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.wxsl.rosalind</groupId>
     <artifactId>rosalind</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -22,11 +22,9 @@
     <properties>
         <cglib.version>3.2.12</cglib.version>
         <guava.version>28.0-jre</guava.version>
+        <h2.version>1.4.200</h2.version>
         <javax-inject.veriosn>1</javax-inject.veriosn>
-        <!--自定义 junit 依赖版本-->
-        <junit-jupiter.version>5.5.2</junit-jupiter.version>
-        <!--自定义 lombok 依赖版本-->
-        <lombok.version>1.18.8</lombok.version>
+        <mockito.veriosn>3.3.3</mockito.veriosn>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -44,9 +42,21 @@
             </dependency>
 
             <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>${javax-inject.veriosn}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.veriosn}</version>
             </dependency>
 
         </dependencies>

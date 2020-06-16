@@ -1,6 +1,6 @@
 package com.wxsl.rosalind.framework.aop.api;
 
-import com.wxsl.rosalind.framework.BaseFrameWorkTest;
+import com.wxsl.rosalind.base.BaseTest;
 import com.wxsl.rosalind.framework.aop.model.User;
 import com.wxsl.rosalind.framework.aop.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.aop.support.DefaultIntroductionAdvisor;
 
 @Slf4j
 @DisplayName("IntroductionAdvisorDemo")
-class IntroductionAdvisorDemoTest extends BaseFrameWorkTest {
+class IntroductionAdvisorDemoTest extends BaseTest {
 
     @Test
     @DisplayName("defaultIntroductionAdvisor")
@@ -29,7 +29,7 @@ class IntroductionAdvisorDemoTest extends BaseFrameWorkTest {
     private void testIntroductionAdvisor(IntroductionAdvisor introductionAdvisor) {
 
         //获取 被代理对象
-        UserService userService = applicationContext.getBean(UserService.class);
+        UserService userService = applicationContext().getBean(UserService.class);
 
         //获取 ProxyFactory
         ProxyFactory proxyFactory = new ProxyFactory();
@@ -47,7 +47,7 @@ class IntroductionAdvisorDemoTest extends BaseFrameWorkTest {
         UserService proxy = (UserService) proxyFactory.getProxy();
 
         //获取 用户实例
-        User user = applicationContext.getBean("hermia", User.class);
+        User user = applicationContext().getBean("hermia", User.class);
 
         //调用代理方法
         user = proxy.loginOut(user);
