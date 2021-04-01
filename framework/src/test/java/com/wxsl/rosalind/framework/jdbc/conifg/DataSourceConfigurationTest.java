@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
-class DataSourceConfigDemoTest extends BaseTest {
+class DataSourceConfigurationTest extends BaseTest {
 
     @Test
     @DisplayName("dataSource")
