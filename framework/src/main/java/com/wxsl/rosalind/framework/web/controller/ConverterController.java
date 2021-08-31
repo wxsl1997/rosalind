@@ -1,4 +1,4 @@
-package com.wxsl.rosalind.framework.mvc.controller;
+package com.wxsl.rosalind.framework.web.controller;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

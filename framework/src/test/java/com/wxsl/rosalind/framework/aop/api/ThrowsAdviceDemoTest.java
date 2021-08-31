@@ -68,7 +68,7 @@ class ThrowsAdviceDemoTest extends BaseTest {
 
     private void testThrowsAdvice(Callable<Object> target) throws Exception {
         ProxyFactory proxyFactory = proxyFactory(target, new ThrowsAdviceDemo());
-        Callable proxy = (Callable) proxyFactory.getProxy();
+        Callable<?> proxy = (Callable<?>) proxyFactory.getProxy();
         proxy.call();
     }
 }

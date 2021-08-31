@@ -1,4 +1,4 @@
-package com.wxsl.rosalind.framework.mvc.util;
+package com.wxsl.rosalind.framework.web.util;
 
 import lombok.experimental.UtilityClass;
 

@@ -1,4 +1,4 @@
-package com.wxsl.rosalind.security.config;
+package com.wxsl.rosalind.security.config.local;
 
 import com.wxsl.rosalind.security.catalog.dao.UserDao;
 import com.wxsl.rosalind.security.catalog.model.User;

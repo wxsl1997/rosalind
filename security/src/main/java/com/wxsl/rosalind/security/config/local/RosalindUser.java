@@ -1,4 +1,4 @@
-package com.wxsl.rosalind.security.config;
+package com.wxsl.rosalind.security.config.local;
 
 import lombok.Builder;
 import lombok.Data;

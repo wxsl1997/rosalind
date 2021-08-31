@@ -1,4 +1,4 @@
-package com.wxsl.rosalind.security.config;
+package com.wxsl.rosalind.security.config.local;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;

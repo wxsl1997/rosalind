@@ -1,6 +1,6 @@
-package com.wxsl.rosalind.framework.mvc;
+package com.wxsl.rosalind.framework.web;
 
-import com.wxsl.rosalind.framework.mvc.util.DateTimeUtils;
+import com.wxsl.rosalind.framework.web.util.DateTimeUtils;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;

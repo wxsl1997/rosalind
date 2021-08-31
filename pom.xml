@@ -26,6 +26,7 @@
         <h2.version>1.4.200</h2.version>
         <javax-inject.veriosn>1</javax-inject.veriosn>
         <mockito.veriosn>3.3.3</mockito.veriosn>
+        <openapi-ui.version>1.5.2</openapi-ui.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -58,6 +59,12 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.veriosn}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${openapi-ui.version}</version>
             </dependency>
 
         </dependencies>
