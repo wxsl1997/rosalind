@@ -1,3 +1,0 @@
-###
-GET http://localhost:8080/converter/test-date?date=2020-01-01
-

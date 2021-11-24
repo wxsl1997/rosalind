@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 映射文件 -->
+<mapper namespace="com.wxsl.rosalind.mybatis.mapper.CountryMapper">
+
+    <select id="findAll" resultType="Country">
+        select *
+        from country
+    </select>
+
+    <!--<select id="findById" resultType="Country">
+        select *
+        from country
+        where id = #{id}
+    </select>-->
+
+    <insert id="save">
+        <selectKey keyProperty="id" order="AFTER" resultType="Long">
+            select last_insert_id()
+        </selectKey>
+        insert into country( name, code)
+        values ( #{name}, #{code})
+    </insert>
+
+    <update id="update">
+        update country
+        set name=#{name},
+            code=#{code}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from country
+        where id = #{id}
+    </delete>
+
+</mapper>
