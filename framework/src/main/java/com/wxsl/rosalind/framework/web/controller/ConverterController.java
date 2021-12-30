@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @RequiredArgsConstructor
@@ -20,4 +21,10 @@ public class ConverterController {
     public LocalDate testDate(LocalDate date) {
         return date;
     }
+
+    @GetMapping("test-date2")
+    public LocalDateTime testDate(LocalDateTime date) {
+        return date;
+    }
+
 }
