@@ -23,8 +23,7 @@ public class ConverterController {
     }
 
     @GetMapping("test-date2")
-    public LocalDateTime testDate(LocalDateTime date) {
+    public LocalDateTime testDate2(LocalDateTime date) {
         return date;
     }
-
 }
