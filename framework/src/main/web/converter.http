@@ -1,0 +1,20 @@
+
+### test long
+http://{{host}}:{{port}}/converter/test-long?value=9223372036854775807
+
+### test date 1
+GET http://{{host}}:{{port}}/converter/test-date?date=2020-02-02
+
+### test date 2
+GET http://{{host}}:{{port}}/converter/test-date2?date=2020-02-02 02:02:02
+
+### test date 3
+GET http://{{host}}:{{port}}/converter/test-date3?date=2020-02-02 02:02:02
+
+### test date 4
+POST http://{{host}}:{{port}}/converter/test-date4
+Content-Type: application/json
+
+{
+  "date": "2020-02-02 02:02:02"
+}
