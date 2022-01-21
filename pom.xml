@@ -23,7 +23,7 @@
     <properties>
         <cglib.version>3.2.12</cglib.version>
         <guava.version>29.0-jre</guava.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.1.210</h2.version>
         <javax-inject.veriosn>1</javax-inject.veriosn>
         <mockito.veriosn>3.3.3</mockito.veriosn>
     </properties>
