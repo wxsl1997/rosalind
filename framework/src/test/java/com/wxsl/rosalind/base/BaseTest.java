@@ -16,6 +16,7 @@ public abstract class BaseTest extends AbstractTransactionalJUnit4SpringContextT
 
     @NonNull
     public ApplicationContext applicationContext() {
+        //noinspection ConstantConditions
         return applicationContext;
     }
 }

@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LookupDemo {
+public abstract class LookupDemo {
 
     @Lookup
-    ScopeDemo getScopeDemo() {
-        // override dynamically
-        return null;
-    }
+    public abstract ScopeDemo getScopeDemo();
 }
