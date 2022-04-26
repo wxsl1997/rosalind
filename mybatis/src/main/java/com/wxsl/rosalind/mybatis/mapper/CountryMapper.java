@@ -1,10 +1,12 @@
 package com.wxsl.rosalind.mybatis.mapper;
 
 import com.wxsl.rosalind.mybatis.model.Country;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
+@Mapper
 public interface CountryMapper {
 
     List<Country> findAll();
