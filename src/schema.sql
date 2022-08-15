@@ -1,18 +1,18 @@
-create table `user`
+CREATE TABLE `user`
 (
-    `id`              bigint(20) unsigned not null auto_increment,
-    `username`        varchar(255)        not null,
-    `password`        varchar(255)        not null,
-    `version`         bigint(20)          not null,
-    `entity_created`  datetime            not null,
-    `entity_modified` datetime            not null,
-    primary key (`id`)
-) engine = innodb;
+    `id`              bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `username`        varchar(255)        NOT NULL,
+    `password`        varchar(255)        NOT NULL,
+    `version`         bigint(20)          NOT NULL,
+    `entity_created`  datetime            NOT NULL,
+    `entity_modified` datetime            NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
-create table `country`
+CREATE TABLE `country`
 (
-    `id`   bigint(20) unsigned not null auto_increment,
-    `name` varchar(255)        not null,
-    `code` varchar(255)        not null,
-    primary key (`id`)
-) engine = innodb;
+    `id`   bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(255)        NOT NULL,
+    `code` varchar(255)        NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;

@@ -19,6 +19,7 @@
         <module>framework</module>
         <module>security</module>
         <module>mybatis</module>
+        <module>dp</module>
     </modules>
 
     <properties>
