@@ -1,5 +1,6 @@
 package com.wxsl.rosalind.framework.web;
 
+import com.wxsl.rosalind.framework.web.controller.ConverterController;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -19,14 +20,13 @@ import org.springframework.context.annotation.Configuration;
                 @Server(description = "dev")
         }
 )
-
 @Configuration
 public class OpenApiConfig {
 
     //全部
     @Bean
     public GroupedOpenApi rosalindApi() {
-        String[] packagesToScan = {"com.wxsl.rosalind.framework.web"};
+        String[] packagesToScan = {ConverterController.class.getPackage().getName()};
         return GroupedOpenApi.builder()
                 .group("全部")
                 .packagesToScan(packagesToScan)

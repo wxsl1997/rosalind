@@ -19,7 +19,6 @@
         <module>framework</module>
         <module>security</module>
         <module>mybatis</module>
-        <module>mbg</module>
     </modules>
 
     <properties>
