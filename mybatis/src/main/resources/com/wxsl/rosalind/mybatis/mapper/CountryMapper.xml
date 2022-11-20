@@ -5,17 +5,6 @@
 <!-- 映射文件 -->
 <mapper namespace="com.wxsl.rosalind.mybatis.mapper.CountryMapper">
 
-    <select id="findAll" resultType="Country">
-        select *
-        from country
-    </select>
-
-    <!--<select id="findById" resultType="Country">
-        select *
-        from country
-        where id = #{id}
-    </select>-->
-
     <insert id="save">
         <selectKey keyProperty="id" order="AFTER" resultType="Long">
             select last_insert_id()
