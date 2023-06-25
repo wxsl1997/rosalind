@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ProfileDemo {
 
-    private String name;
+    private String name = "dev";
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 }

@@ -4,7 +4,6 @@ import com.wxsl.rosalind.framework.jdbc.base.AuditableEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -45,11 +44,6 @@ public class TradeRate extends AuditableEntity {
      * 评价解释
      */
     private String reply;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime created;
 
     @Version
     private Long version;

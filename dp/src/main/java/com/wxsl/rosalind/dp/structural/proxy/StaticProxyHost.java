@@ -8,7 +8,7 @@ public class StaticProxyHost implements VisitHost {
     /**
      * 维持真实主题对象的引用
      */
-    private VisitHost visitHost = new DellHost();
+    private final VisitHost visitHost = new DellHost();
 
     @Override
     public void visit() {

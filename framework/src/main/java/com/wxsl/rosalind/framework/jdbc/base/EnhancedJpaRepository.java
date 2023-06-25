@@ -24,7 +24,6 @@ public class EnhancedJpaRepository<T, ID extends Serializable> extends SimpleJpa
 
     private static final Map<Class<?>, RowMapper<?>> ROW_MAPPER_MAP = Maps.newConcurrentMap();
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public EnhancedJpaRepository(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
         this.entityManager = entityManager;

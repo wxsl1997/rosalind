@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 public class AuditableEntity implements Serializable {
 
     @CreatedDate
-    private LocalDateTime entityCreated;
+    private LocalDateTime created;
 
     @LastModifiedDate
-    private LocalDateTime entityModified;
+    private LocalDateTime modified;
 }

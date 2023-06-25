@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.wxsl.rosalind.framework.web.util.DateUtils;
+import com.wxsl.rosalind.framework.web.util.TimeUtils;
 import org.springframework.format.AnnotationFormatterFactory;
 import org.springframework.format.Parser;
 import org.springframework.format.Printer;
@@ -33,20 +33,20 @@ public class LastSecondFormatterFactory implements AnnotationFormatterFactory<La
 
     @Override
     public Parser<?> getParser(LastSecond annotation, Class<?> fieldType) {
-        return (Parser<Object>) (text, locale) -> LocalDateTime.parse(text, DateUtils.DATE_TIME_FORMATTER).withSecond(59);
+        return (Parser<Object>) (text, locale) -> LocalDateTime.parse(text, TimeUtils.DATE_TIME_FORMATTER).withSecond(59);
     }
 
     public static class LastSecondJsonDeserializer extends JsonDeserializer<LocalDateTime> {
         @Override
         public LocalDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-            return LocalDateTime.parse(jsonParser.getText(), DateUtils.DATE_TIME_FORMATTER).withSecond(59);
+            return LocalDateTime.parse(jsonParser.getText(), TimeUtils.DATE_TIME_FORMATTER).withSecond(59);
         }
     }
 
     public static class LastSecondJsonSerializer extends JsonSerializer<LocalDateTime> {
         @Override
         public void serialize(LocalDateTime dateTime, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeString(String.format("@LastSecond:%s", dateTime.format(DateUtils.DATE_TIME_FORMATTER)));
+            jsonGenerator.writeString(String.format("@LastSecond:%s", dateTime.format(TimeUtils.DATE_TIME_FORMATTER)));
         }
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
         // 请求服务地址配置
         servers = {
-                @Server(description = "dev")
+                @Server(description = "dev", url = "/")
         }
 )
 @Configuration

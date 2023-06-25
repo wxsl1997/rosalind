@@ -25,17 +25,17 @@ public class ConverterController {
         return date;
     }
 
-    @GetMapping("test-date2")
+    @GetMapping("test-date-time")
     public LocalDateTime testDate2(LocalDateTime date) {
         return date;
     }
 
-    @GetMapping("test-date3")
+    @GetMapping("test-last-second")
     public LocalDateTime testDate3(LastSecondQuery query) {
         return query.getDate();
     }
 
-    @PostMapping("test-date4")
+    @PostMapping("test-last-second")
     public LastSecondCommand testDate4(@RequestBody LastSecondCommand query) {
         return query;
     }
