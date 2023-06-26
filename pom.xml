@@ -20,6 +20,7 @@
         <module>security</module>
         <module>mybatis</module>
         <module>dp</module>
+        <module>zk</module>
     </modules>
 
     <properties>
