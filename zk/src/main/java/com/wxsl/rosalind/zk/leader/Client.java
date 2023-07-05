@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class Client implements Watcher, Closeable {
 
+    public static final Object CTX_NULL = null;
     ZooKeeper zk;
 
     private final String address;
@@ -52,7 +53,7 @@ public class Client implements Watcher, Closeable {
                 case OK: {
                     log.info("my created task name:{}", name);
                     ((TaskContext) ctx).setTaskName(name);
-                    watchStatus(name.replace("/tasks/", "/status/"), ctx);
+                    watchTaskStatus(name.replace("/tasks/", "/status/"), ctx);
                     break;
                 }
                 default: {
@@ -66,93 +67,6 @@ public class Client implements Watcher, Closeable {
 
         zk.create("/tasks/task-", task.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT_SEQUENTIAL, callback, taskCtx);
     }
-
-    private void watchStatus(String statusPath, Object taskCtx) {
-        AsyncCallback.StatCallback callback = (rc, path, ctx, stat) -> {
-            KeeperException.Code code = KeeperException.Code.get(rc);
-            switch (code) {
-                case CONNECTIONLOSS: {
-                    watchStatus(path, ctx);
-                    break;
-                }
-                case OK: {
-                    if (stat != null) {
-                        zk.getData(path, false, getDataCallback, ctx);
-                        log.info("status node is there:{}", path);
-                    }
-                    break;
-                }
-                case NONODE: {
-                    break;
-                }
-                default: {
-                    log.error("something went wrong when checking if the status node exists" + KeeperException.create(code, path));
-                    break;
-                }
-            }
-        };
-
-        Watcher watcher = e -> {
-            if (e.getType() == Event.EventType.NodeCreated) {
-                assert e.getPath().contains("/status/task-");
-                assert ctxMap.containsKey(e.getPath());
-
-                zk.getData(e.getPath(), false, getDataCallback, ctxMap.get(e.getPath()));
-            }
-        };
-
-        ctxMap.put(statusPath, taskCtx);
-        zk.exists(statusPath, watcher, callback, taskCtx);
-    }
-
-    private final AsyncCallback.DataCallback getDataCallback = new AsyncCallback.DataCallback() {
-        public void processResult(int rc, String path, Object ctx, byte[] data, Stat stat) {
-            KeeperException.Code code = KeeperException.Code.get(rc);
-            switch (code) {
-                case CONNECTIONLOSS: {
-                    zk.getData(path, false, getDataCallback, ctxMap.get(path));
-                    return;
-                }
-                case OK: {
-                    String taskStatus = new String(data);
-                    log.info("task:{}, status:{}", path, taskStatus);
-
-                    assert (ctx != null);
-                    ((TaskContext) ctx).setSuccessful(taskStatus.contains("done"));
-
-                    zk.delete(path, -1, taskDeleteCallback, null);
-                    ctxMap.remove(path);
-                    break;
-                }
-                case NONODE: {
-                    log.warn("status node is gone");
-                    return;
-                }
-                default: {
-                    log.error("something went wrong here", KeeperException.create(code, path));
-                }
-            }
-        }
-    };
-
-    private final AsyncCallback.VoidCallback taskDeleteCallback = new AsyncCallback.VoidCallback() {
-        public void processResult(int rc, String path, Object ctx) {
-            KeeperException.Code code = KeeperException.Code.get(rc);
-            switch (code) {
-                case CONNECTIONLOSS: {
-                    zk.delete(path, -1, taskDeleteCallback, null);
-                    break;
-                }
-                case OK: {
-                    log.info("successfully deleted " + path);
-                    break;
-                }
-                default: {
-                    log.error("something went wrong here", KeeperException.create(code, path));
-                }
-            }
-        }
-    };
 
 
     @Data
@@ -194,6 +108,88 @@ public class Client implements Watcher, Closeable {
                 default: {
                     break;
                 }
+            }
+        }
+    }
+
+    private void watchTaskStatus(String statusPath, Object taskCtx) {
+        AsyncCallback.StatCallback callback = (rc, path, ctx, stat) -> {
+            KeeperException.Code code = KeeperException.Code.get(rc);
+            switch (code) {
+                case CONNECTIONLOSS: {
+                    watchTaskStatus(path, ctx);
+                    break;
+                }
+                case OK: {
+                    if (stat != null) {
+                        zk.getData(path, false, this::watchTaskCallback, ctx);
+                        log.info("status node is there:{}", path);
+                    }
+                    break;
+                }
+                case NONODE: {
+                    break;
+                }
+                default: {
+                    log.error("something went wrong when checking if the status node exists" + KeeperException.create(code, path));
+                    break;
+                }
+            }
+        };
+
+        Watcher watcher = e -> {
+            if (e.getType() == Event.EventType.NodeCreated) {
+                assert e.getPath().contains("/status/task-");
+                assert ctxMap.containsKey(e.getPath());
+                zk.getData(e.getPath(), false, this::watchTaskCallback, ctxMap.get(e.getPath()));
+            }
+        };
+
+        ctxMap.put(statusPath, taskCtx);
+        zk.exists(statusPath, watcher, callback, taskCtx);
+    }
+
+    public void watchTaskCallback(int rc, String path, Object ctx, byte[] data, Stat stat) {
+        KeeperException.Code code = KeeperException.Code.get(rc);
+        switch (code) {
+            case CONNECTIONLOSS: {
+                zk.getData(path, false, this::watchTaskCallback, ctxMap.get(path));
+                return;
+            }
+            case OK: {
+                String taskStatus = new String(data);
+                log.info("task:{}, status:{}", path, taskStatus);
+
+                assert (ctx != null);
+                ((TaskContext) ctx).setSuccessful(taskStatus.contains("done"));
+
+                zk.delete(path, -1, this::deleteTaskCallback, CTX_NULL);
+                ctxMap.remove(path);
+                break;
+            }
+            case NONODE: {
+                log.warn("status node is gone");
+                return;
+            }
+            default: {
+                log.error("something went wrong here", KeeperException.create(code, path));
+            }
+        }
+    }
+
+    public void deleteTaskCallback(int rc, String path, Object ctx) {
+        KeeperException.Code code = KeeperException.Code.get(rc);
+        switch (code) {
+            case CONNECTIONLOSS: {
+                zk.delete(path, -1, this::deleteTaskCallback, CTX_NULL);
+                break;
+            }
+            case OK: {
+                log.info("successfully deleted " + path);
+                break;
+            }
+            default: {
+                log.error("something went wrong here", KeeperException.create(code, path));
             }
         }
     }

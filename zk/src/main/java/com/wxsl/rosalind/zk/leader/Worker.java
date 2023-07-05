@@ -22,14 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Worker implements Watcher, Closeable {
 
-    private static final Object CONTEXT = new Object();
-
-    public static final String IDLE = "Idle";
-    public static final String WORKERS_PATH = "/workers";
-    public static final String DONE = "done";
-    public static final String STATUS_PATCH = "/status";
+    private static final Object CTX_NULL = null;
+    private static final String IDLE = "Idle";
+    private static final String DONE = "done";
+    private static final String WORKERS_PATH = "/workers";
+    private static final String STATUS_PATCH = "/status";
     private ZooKeeper zk;
-
     private final ThreadPoolExecutor executor;
 
     private final String address;
@@ -81,7 +79,7 @@ public class Worker implements Watcher, Closeable {
         };
 
         String name = "worker-" + serverId;
-        zk.create(WORKERS_PATH + "/" + name, IDLE.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, callback, CONTEXT);
+        zk.create(WORKERS_PATH + "/" + name, IDLE.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL, callback, CTX_NULL);
     }
 
     public void bootstrap() {
@@ -110,19 +108,19 @@ public class Worker implements Watcher, Closeable {
         zk.create("/assign/worker-" + serverId, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, callback, null);
     }
 
-    public void processTask() {
+    public void assignTaskCallback() {
 
         Watcher watcher = e -> {
             if (e.getType() == Event.EventType.NodeChildrenChanged) {
                 assert Objects.equals("/assign/worker-" + serverId, e.getPath());
-                processTask();
+                assignTaskCallback();
             }
         };
 
         AsyncCallback.ChildrenCallback callback = (rc, path, ctx, children) -> {
             switch (KeeperException.Code.get(rc)) {
                 case CONNECTIONLOSS: {
-                    processTask();
+                    assignTaskCallback();
                     break;
                 }
                 case OK:
@@ -131,7 +129,7 @@ public class Worker implements Watcher, Closeable {
                         List<String> newTasks = assignedTasksCache.getNewAndRefreshCache(children);
 
                         List<Runnable> tasks = newTasks.stream()
-                                .map(task -> (Runnable) () -> zk.getData("/assign/worker-" + serverId + "/" + task, false, processTaskCallback, task))
+                                .map(task -> (Runnable) () -> zk.getData("/assign/worker-" + serverId + "/" + task, false, this::assignTaskCallback, task))
                                 .collect(Collectors.toList());
 
                         // 多线程提交任务
@@ -144,7 +142,7 @@ public class Worker implements Watcher, Closeable {
             }
         };
 
-        zk.getChildren("/assign/worker-" + serverId, watcher, callback, CONTEXT);
+        zk.getChildren("/assign/worker-" + serverId, watcher, callback, CTX_NULL);
     }
 
     @Override
@@ -174,7 +172,7 @@ public class Worker implements Watcher, Closeable {
                 case Expired:
                     expired = true;
                     connected = false;
-                    log.error("Session expire");
+                    log.error("session expire");
                 default: {
                     break;
                 }
@@ -182,31 +180,29 @@ public class Worker implements Watcher, Closeable {
         }
     }
 
-    private final AsyncCallback.StringCallback taskStatusCreateCallback = new AsyncCallback.StringCallback() {
-        public void processResult(int rc, String path, Object ctx, String name) {
-            KeeperException.Code code = KeeperException.Code.get(rc);
-            switch (code) {
-                case CONNECTIONLOSS: {
-                    zk.create(path + "/status", "done".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, taskStatusCreateCallback, CONTEXT);
-                    break;
-                }
-                case OK: {
-                    log.info("created status zk node correctly:{}", name);
-                    break;
-                }
-                case NODEEXISTS: {
-                    log.info("node exists: {}", path);
-                    break;
-                }
-                default: {
-                    log.error("failed to create task data", KeeperException.create(code, path));
-                }
+    private void createTaskStatusCallback(int rc, String path, Object ctx, String name) {
+        KeeperException.Code code = KeeperException.Code.get(rc);
+        switch (code) {
+            case CONNECTIONLOSS: {
+                zk.create(path + "/status", "done".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, this::createTaskStatusCallback, CTX_NULL);
+                break;
             }
-
+            case OK: {
+                log.info("created status zk node correctly:{}", name);
+                break;
+            }
+            case NODEEXISTS: {
+                log.info("node exists: {}", path);
+                break;
+            }
+            default: {
+                log.error("failed to create task data", KeeperException.create(code, path));
+            }
         }
-    };
+    }
 
-    private final AsyncCallback.VoidCallback assignedTaskDeletedCallback = (rc, path, rtx) -> {
+
+    private void deleteAssignTaskCallback(int rc, String path, Object ctx) {
         KeeperException.Code code = KeeperException.Code.get(rc);
         switch (code) {
             case CONNECTIONLOSS: {
@@ -217,28 +213,26 @@ public class Worker implements Watcher, Closeable {
                 break;
             }
             default: {
-                log.error("Failed to delete task data" + KeeperException.create(code, path));
+                log.error("failed to delete task data" + KeeperException.create(code, path));
             }
         }
-    };
+    }
 
-    private final AsyncCallback.DataCallback processTaskCallback = new AsyncCallback.DataCallback() {
-        public void processResult(int rc, String path, Object ctx, byte[] data, Stat stat) {
-            switch (KeeperException.Code.get(rc)) {
-                case CONNECTIONLOSS: {
-                    zk.getData(path, false, processTaskCallback, ctx);
-                    break;
-                }
-                case OK: {
-                    log.info("executing your task:{}", new String(data));
-                    zk.create(STATUS_PATCH + "/" + ctx, DONE.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, taskStatusCreateCallback, CONTEXT);
-                    zk.delete("/assign/worker-" + serverId + "/" + ctx, -1, assignedTaskDeletedCallback, CONTEXT);
-                    break;
-                }
-                default: {
-                    log.error("Failed to get task data: ", KeeperException.create(KeeperException.Code.get(rc), path));
-                }
+    public void assignTaskCallback(int rc, String path, Object ctx, byte[] data, Stat stat) {
+        switch (KeeperException.Code.get(rc)) {
+            case CONNECTIONLOSS: {
+                zk.getData(path, false, this::assignTaskCallback, ctx);
+                break;
+            }
+            case OK: {
+                log.info("executing your task:{}", new String(data));
+                zk.create(STATUS_PATCH + "/" + ctx, DONE.getBytes(StandardCharsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT, this::createTaskStatusCallback, CTX_NULL);
+                zk.delete("/assign/worker-" + serverId + "/" + ctx, -1, this::deleteAssignTaskCallback, CTX_NULL);
+                break;
+            }
+            default: {
+                log.error("failed to get task data", KeeperException.create(KeeperException.Code.get(rc), path));
             }
         }
-    };
+    }
 }

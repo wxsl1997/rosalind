@@ -6,3 +6,5 @@ mybatis source
 
 + mysql 服务
 
+  wxsl.com:3306 - rosalind_mybatis
+

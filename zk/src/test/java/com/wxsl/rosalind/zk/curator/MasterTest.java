@@ -1,9 +1,11 @@
-package com.wxsl.rosalind.zk.leader;
+package com.wxsl.rosalind.zk.curator;
 
 import com.wxsl.rosalind.base.BaseTest;
 import com.wxsl.rosalind.zk.config.CuratorProperties;
 import com.wxsl.rosalind.zk.util.FutureUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,13 +21,15 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 @Disabled
-@DisplayName("master")
+@DisplayName("curator")
 class MasterTest extends BaseTest {
 
     CuratorProperties curatorProperties;
 
     @Test
     void runForMaster() {
+
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(curatorProperties.getBaseSleepTimeMs(), curatorProperties.getMaxRetries());
 
         int threadNum = 3;
 
@@ -34,20 +38,16 @@ class MasterTest extends BaseTest {
         // 竞选任务
         List<Future<?>> futures = IntStream.rangeClosed(1, threadNum)
                 .mapToObj(num -> (Runnable) () -> {
-
                     String candidate = "m" + num;
-
-                    try (Master master = new Master(curatorProperties.getConnectString(), candidate)) {
-                        // 初始化ZK
+                    try (Master master = new Master(curatorProperties.getConnectString(), candidate, retryPolicy)) {
                         master.startZK();
-                        // 初始化节点
                         master.bootstrap();
-                        // 竞选主节点
                         master.runForMaster();
-                        // 记录竞选结果
-                        log.info("finish election for {}, master:{}", candidate, master);
 
-                        while (!master.isExpired()) {
+                        // await for leadership
+                        master.awaitLeadership();
+
+                        while (master.isConnected()) {
                             //noinspection BusyWait
                             Thread.sleep(1000L);
                         }
@@ -55,7 +55,8 @@ class MasterTest extends BaseTest {
                         throw new RuntimeException(e);
                     }
                 })
-                .map(executor::submit).collect(Collectors.toList());
+                .map(executor::submit)
+                .collect(Collectors.toList());
 
         // wait for sub thread
         FutureUtils.runAll(futures);

@@ -18,7 +18,7 @@ import java.util.Objects;
 @Slf4j
 public class Master implements Watcher, AutoCloseable {
 
-    private static final Object CONTEXT = new Object();
+    private static final Object CTX_NULL = null;
     private static final String MASTER_PATH = "/master";
     private static final String WORKERS_PATH = "/workers";
     private static final String TASKS_PATH = "/tasks";
@@ -161,7 +161,7 @@ public class Master implements Watcher, AutoCloseable {
             }
         };
 
-        zk.getChildren(WORKERS_PATH, watcher, callback, CONTEXT);
+        zk.getChildren(WORKERS_PATH, watcher, callback, CTX_NULL);
     }
 
 
@@ -197,7 +197,7 @@ public class Master implements Watcher, AutoCloseable {
             }
         };
 
-        zk.getChildren(TASKS_PATH, watcher, callback, CONTEXT);
+        zk.getChildren(TASKS_PATH, watcher, callback, CTX_NULL);
     }
 
 
@@ -210,6 +210,10 @@ public class Master implements Watcher, AutoCloseable {
                 case OK: {
                     // 随机分配任务
                     List<String> cachedWorkers = workersCache.getCache();
+
+                    if (cachedWorkers.size() == 0) {
+                        return;
+                    }
                     String designatedWorker = cachedWorkers.get((int) (Math.random() * cachedWorkers.size()));
 
                     String assignmentPath = String.format("%s/%s/%s", ASSIGN_PATH, designatedWorker, ctx);
@@ -277,7 +281,7 @@ public class Master implements Watcher, AutoCloseable {
             }
         };
 
-        zk.delete(TASKS_PATH + "/" + task, -1, callback, CONTEXT
+        zk.delete(TASKS_PATH + "/" + task, -1, callback, CTX_NULL
         );
     }
 
@@ -299,7 +303,7 @@ public class Master implements Watcher, AutoCloseable {
             }
         };
 
-        zk.getChildren(ASSIGN_PATH + "/" + worker, false, callback, CONTEXT);
+        zk.getChildren(ASSIGN_PATH + "/" + worker, false, callback, CTX_NULL);
     }
 
     private void reassignTask(String fullPath, String task) {
@@ -371,7 +375,7 @@ public class Master implements Watcher, AutoCloseable {
                 }
             }
         };
-        zk.delete(deletePath, -1, callback, CONTEXT);
+        zk.delete(deletePath, -1, callback, CTX_NULL);
     }
 
     @Data
@@ -429,7 +433,7 @@ public class Master implements Watcher, AutoCloseable {
                 }
             }
         };
-        zk.getData(MASTER_PATH, false, masterCheckCallback, CONTEXT);
+        zk.getData(MASTER_PATH, false, masterCheckCallback, CTX_NULL);
     }
 
 
@@ -470,7 +474,7 @@ public class Master implements Watcher, AutoCloseable {
                 }
             }
         };
-        zk.exists(MASTER_PATH, watcher, callback, CONTEXT);
+        zk.exists(MASTER_PATH, watcher, callback, CTX_NULL);
     }
 
     private enum MasterStates {
