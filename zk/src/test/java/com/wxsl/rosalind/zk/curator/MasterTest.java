@@ -42,7 +42,6 @@ class MasterTest extends BaseTest {
                     try (Master master = new Master(curatorProperties.getConnectString(), candidate, retryPolicy)) {
                         master.startZK();
                         master.bootstrap();
-                        master.runForMaster();
 
                         // await for leadership
                         master.awaitLeadership();
