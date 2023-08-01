@@ -12,7 +12,7 @@ class DependOnDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("applicationContextAware")
     void dependOnDemo() {
-        DependOnDemo dependOnDemo = applicationContext().getBean("dependOnDemo", DependOnDemo.class);
+        DependOnDemo dependOnDemo = applicationContext.getBean("dependOnDemo", DependOnDemo.class);
         Assertions.assertNotNull(dependOnDemo);
         Assertions.assertNotNull(dependOnDemo.getApplicationContext());
     }

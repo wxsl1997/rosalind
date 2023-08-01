@@ -11,9 +11,9 @@ class ApplicationEventPublisherDemoTest extends BaseTest {
     @Test
     @DisplayName("applicationEventPublisher")
     void publishEvent() {
-        ApplicationEventPublisherDemo publisher = applicationContext().getBean(ApplicationEventPublisherDemo.class);
+        ApplicationEventPublisherDemo publisher = applicationContext.getBean(ApplicationEventPublisherDemo.class);
 
-        Product macBook = applicationContext().getBean("macBook", Product.class);
+        Product macBook = applicationContext.getBean("macBook", Product.class);
 
         publisher.publishEvent(macBook);
     }
@@ -21,9 +21,9 @@ class ApplicationEventPublisherDemoTest extends BaseTest {
     @Test
     @DisplayName("transactionalEventListener")
     void publishTxEvent() {
-        ApplicationEventPublisherDemo publisher = applicationContext().getBean(ApplicationEventPublisherDemo.class);
+        ApplicationEventPublisherDemo publisher = applicationContext.getBean(ApplicationEventPublisherDemo.class);
 
-        Product macBook = applicationContext().getBean("macBook", Product.class);
+        Product macBook = applicationContext.getBean("macBook", Product.class);
 
         publisher.publishTxEvent(macBook);
     }

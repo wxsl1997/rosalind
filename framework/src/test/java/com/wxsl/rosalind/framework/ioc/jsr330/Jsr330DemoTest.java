@@ -11,7 +11,7 @@ class Jsr330DemoTest extends BaseTest {
     @Test
     @DisplayName("jsr330")
     void jsr330() {
-        Jsr330Demo jsr330Demo = applicationContext().getBean("jsr330Demo", Jsr330Demo.class);
+        Jsr330Demo jsr330Demo = applicationContext.getBean("jsr330Demo", Jsr330Demo.class);
         Assertions.assertNotNull(jsr330Demo);
         Assertions.assertNotNull(jsr330Demo.getIPhone());
     }

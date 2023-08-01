@@ -14,7 +14,7 @@ class TradeRateDaoTest extends BaseTest {
     @Test
     @DisplayName("listTradeRate")
     void listTradeRate() {
-        TradeRateDao tradeRateDao = applicationContext().getBean("tradeRateDao", TradeRateDao.class);
+        TradeRateDao tradeRateDao = applicationContext.getBean("tradeRateDao", TradeRateDao.class);
         List<TradeRate> tradeRates = tradeRateDao.listTradeRate();
         Assertions.assertNotNull(tradeRates);
     }
@@ -22,7 +22,7 @@ class TradeRateDaoTest extends BaseTest {
     @Test
     @DisplayName("findByTid")
     void findByTid() {
-        TradeRateDao tradeRateDao = applicationContext().getBean("tradeRateDao", TradeRateDao.class);
+        TradeRateDao tradeRateDao = applicationContext.getBean("tradeRateDao", TradeRateDao.class);
         TradeRate tradeRate = tradeRateDao.findByTid(null);
         Assertions.assertNull(tradeRate);
     }

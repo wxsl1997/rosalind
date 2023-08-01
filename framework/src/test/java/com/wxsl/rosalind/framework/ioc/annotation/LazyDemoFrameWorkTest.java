@@ -11,6 +11,6 @@ class LazyDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("lazy")
     void lazyDemo() {
-        Assertions.assertNotNull(applicationContext().getBean("lazyDemo", LazyDemo.class));
+        Assertions.assertNotNull(applicationContext.getBean("lazyDemo", LazyDemo.class));
     }
 }

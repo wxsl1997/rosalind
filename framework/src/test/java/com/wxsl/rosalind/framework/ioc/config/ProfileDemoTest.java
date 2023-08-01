@@ -10,7 +10,7 @@ class ProfileDemoTest extends BaseTest {
     @Test
     @DisplayName("activeProfiles")
     void profileDemo() {
-        ProfileDemo profileDemo = applicationContext().getBean("profileDemo", ProfileDemo.class);
+        ProfileDemo profileDemo = applicationContext.getBean("profileDemo", ProfileDemo.class);
         Assertions.assertNotNull(profileDemo.getName());
         Assertions.assertNotNull(profileDemo.getCreated());
     }

@@ -29,7 +29,7 @@ class IntroductionAdvisorDemoTest extends BaseTest {
     private void testIntroductionAdvisor(IntroductionAdvisor introductionAdvisor) {
 
         //获取 被代理对象
-        UserService userService = applicationContext().getBean(UserService.class);
+        UserService userService = applicationContext.getBean(UserService.class);
 
         //获取 ProxyFactory
         ProxyFactory proxyFactory = new ProxyFactory();
@@ -47,7 +47,7 @@ class IntroductionAdvisorDemoTest extends BaseTest {
         UserService proxy = (UserService) proxyFactory.getProxy();
 
         //获取 用户实例
-        User user = applicationContext().getBean("hermia", User.class);
+        User user = applicationContext.getBean("hermia", User.class);
 
         //调用代理方法
         user = proxy.loginOut(user);

@@ -11,6 +11,6 @@ class LookupDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("lookup")
     void lookupDemo() {
-        Assertions.assertNotNull(applicationContext().getBean("lookupDemo", LookupDemo.class));
+        Assertions.assertNotNull(applicationContext.getBean("lookupDemo", LookupDemo.class));
     }
 }

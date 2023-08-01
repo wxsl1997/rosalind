@@ -13,7 +13,7 @@ import java.util.List;
 class CountryMapperTest extends BaseTest {
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         try (SqlSession sqlSession = getSqlSession()) {
             List<Country> countries = sqlSession.selectList("com.wxsl.rosalind.mybatis.mapper.CountryMapper.findAll");
             log.info("test find all, countries:{}", countries);
@@ -21,8 +21,8 @@ class CountryMapperTest extends BaseTest {
     }
 
     @Test
-    public void testFindById() {
-        CountryMapper countryMapper = applicationContext().getBean(CountryMapper.class);
+    void testFindById() {
+        CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         countryMapper.findAll().stream().findAny().ifPresent(item -> {
             Country country = countryMapper.findById(item.getId());
             log.info("test find by id, country:{}", country);
@@ -30,8 +30,8 @@ class CountryMapperTest extends BaseTest {
     }
 
     @Test
-    public void testSave() {
-        CountryMapper countryMapper = applicationContext().getBean(CountryMapper.class);
+    void testSave() {
+        CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         Country country = new Country();
         country.setName("英国");
         country.setCode("GB");
@@ -40,8 +40,8 @@ class CountryMapperTest extends BaseTest {
     }
 
     @Test
-    public void testUpdate() {
-        CountryMapper countryMapper = applicationContext().getBean(CountryMapper.class);
+    void testUpdate() {
+        CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         countryMapper.findAll().stream().findAny().ifPresent(country -> {
             String name = "china";
             country.setName(name);
@@ -51,8 +51,8 @@ class CountryMapperTest extends BaseTest {
     }
 
     @Test
-    public void testDelete() {
-        CountryMapper countryMapper = applicationContext().getBean(CountryMapper.class);
+    void testDelete() {
+        CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         countryMapper.findAll().stream().findAny().ifPresent(country -> {
             countryMapper.deleteById(country.getId());
             Assertions.assertNull(countryMapper.findById(country.getId()));

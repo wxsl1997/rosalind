@@ -12,7 +12,7 @@ class AopApiConfigDemoTest extends BaseTest {
     @Test
     @DisplayName("proxyFactoryBean")
     void proxyFactoryBean() {
-        User user = applicationContext().getBean("proxyFactoryBean", User.class);
+        User user = applicationContext.getBean("proxyFactoryBean", User.class);
         Assertions.assertNotNull(user);
         Assertions.assertNotNull(user.getAccount());
     }

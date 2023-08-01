@@ -11,7 +11,7 @@ class BeanNameAwareDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("beanNameAware")
     void beanNameAwareDemo() {
-        BeanNameAwareDemo beanNameAwareDemo = applicationContext().getBean("beanNameAwareDemo", BeanNameAwareDemo.class);
+        BeanNameAwareDemo beanNameAwareDemo = applicationContext.getBean("beanNameAwareDemo", BeanNameAwareDemo.class);
         Assertions.assertNotNull(beanNameAwareDemo);
     }
 }

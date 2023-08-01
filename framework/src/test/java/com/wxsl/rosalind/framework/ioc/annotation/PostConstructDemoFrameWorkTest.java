@@ -11,6 +11,6 @@ class PostConstructDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("postConstruct")
     void postConstructDemo() {
-        Assertions.assertNotNull(applicationContext().getBean("postConstructDemo", PostConstructDemo.class));
+        Assertions.assertNotNull(applicationContext.getBean("postConstructDemo", PostConstructDemo.class));
     }
 }

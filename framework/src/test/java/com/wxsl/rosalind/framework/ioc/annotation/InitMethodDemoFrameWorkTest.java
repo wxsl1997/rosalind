@@ -11,6 +11,6 @@ class InitMethodDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("init")
     void initMethodDemo() {
-        Assertions.assertNotNull(applicationContext().getBean("initMethodDemo", InitMethodDemo.class));
+        Assertions.assertNotNull(applicationContext.getBean("initMethodDemo", InitMethodDemo.class));
     }
 }

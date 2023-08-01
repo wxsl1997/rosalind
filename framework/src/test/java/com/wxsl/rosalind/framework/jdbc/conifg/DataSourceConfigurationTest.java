@@ -13,7 +13,7 @@ class DataSourceConfigurationTest extends BaseTest {
     @Test
     @DisplayName("dataSource")
     void hikariDataSource() throws SQLException {
-        DataSource dataSource = applicationContext().getBean("dataSource", DataSource.class);
+        DataSource dataSource = applicationContext.getBean("dataSource", DataSource.class);
         Assertions.assertNotNull(dataSource);
         Assertions.assertNotNull(dataSource.getConnection());
     }

@@ -13,7 +13,7 @@ class ApiConfigDemoTest extends BaseTest {
     @Test
     @DisplayName("customEditorConfigurer")
     void customEditorConfigurer() {
-        CustomEditorConfigurer customEditorConfigurerDemo = applicationContext().getBean("customEditorConfigurer", CustomEditorConfigurer.class);
+        CustomEditorConfigurer customEditorConfigurerDemo = applicationContext.getBean("customEditorConfigurer", CustomEditorConfigurer.class);
         Assertions.assertNotNull(customEditorConfigurerDemo);
     }
 
@@ -21,14 +21,14 @@ class ApiConfigDemoTest extends BaseTest {
     @Test
     @DisplayName("propertyEditorRegistrars")
     void propertyEditorRegistrars() {
-        PropertyEditorDemo propertyEditorDemo = applicationContext().getBean("propertyEditorDemo", PropertyEditorDemo.class);
+        PropertyEditorDemo propertyEditorDemo = applicationContext.getBean("propertyEditorDemo", PropertyEditorDemo.class);
         Assertions.assertNotNull(propertyEditorDemo.getDate());
     }
 
     @Test
     @DisplayName("customEditors")
     void customEditors() {
-        PropertyEditorDemo propertyEditorDemo = applicationContext().getBean("propertyEditorDemo", PropertyEditorDemo.class);
+        PropertyEditorDemo propertyEditorDemo = applicationContext.getBean("propertyEditorDemo", PropertyEditorDemo.class);
         Assertions.assertNotNull(propertyEditorDemo.getLocalDateTime());
     }
 }

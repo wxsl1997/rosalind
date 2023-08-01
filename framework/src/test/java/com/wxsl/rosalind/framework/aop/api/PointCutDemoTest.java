@@ -26,7 +26,7 @@ import static com.wxsl.rosalind.framework.aop.api.ProxyFactoryDemo.proxyFactory;
 
 @Slf4j
 @DisplayName("PointCutDemo")
-class PointCutDemo extends BaseTest {
+class PointCutDemoTest extends BaseTest {
 
     @Test
     @DisplayName("staticMethodMatcherPointcut")
@@ -128,7 +128,7 @@ class PointCutDemo extends BaseTest {
 
     private void testPointCut(Pointcut pointcut) {
         //获取 被代理对象
-        UserService userService = applicationContext().getBean(UserService.class);
+        UserService userService = applicationContext.getBean(UserService.class);
 
         //获取 ProxyFactory, 设置前置增强
         ProxyFactory proxyFactory = proxyFactory(userService, methodInterceptor(), pointcut);
@@ -137,7 +137,7 @@ class PointCutDemo extends BaseTest {
         UserService proxy = (UserService) proxyFactory.getProxy();
 
         //获取 用户实例
-        User user = applicationContext().getBean("hermia", User.class);
+        User user = applicationContext.getBean("hermia", User.class);
 
         //调用代理方法
         user = proxy.loginOut(user);

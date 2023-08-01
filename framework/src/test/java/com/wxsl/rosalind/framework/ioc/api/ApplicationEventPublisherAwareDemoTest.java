@@ -11,9 +11,9 @@ class ApplicationEventPublisherAwareDemoTest extends BaseTest {
     @Test
     @DisplayName("applicationEventPublisherAware")
     void publishEvent() {
-        ApplicationEventPublisherAwareDemo publisher = applicationContext().getBean(ApplicationEventPublisherAwareDemo.class);
+        ApplicationEventPublisherAwareDemo publisher = applicationContext.getBean(ApplicationEventPublisherAwareDemo.class);
 
-        Product macBook = applicationContext().getBean("macBook", Product.class);
+        Product macBook = applicationContext.getBean("macBook", Product.class);
 
         publisher.publishEvent(macBook);
     }

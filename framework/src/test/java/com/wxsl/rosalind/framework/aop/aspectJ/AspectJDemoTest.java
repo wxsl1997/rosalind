@@ -14,10 +14,10 @@ class AspectJDemoTest extends BaseTest {
     void before() {
 
         //获取 目标对象
-        UserService userService = applicationContext().getBean(UserService.class);
+        UserService userService = applicationContext.getBean(UserService.class);
 
         //获取 参数
-        User hermia = applicationContext().getBean("hermia", User.class);
+        User hermia = applicationContext.getBean("hermia", User.class);
 
         //调用 方法
         userService.loginIn(hermia);

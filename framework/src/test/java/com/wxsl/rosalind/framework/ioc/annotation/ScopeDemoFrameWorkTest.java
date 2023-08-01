@@ -11,7 +11,7 @@ class ScopeDemoFrameWorkTest extends BaseTest {
     @Test
     @DisplayName("scope")
     void scopeDemo() {
-        LookupDemo lookupDemo = applicationContext().getBean("lookupDemo", LookupDemo.class);
+        LookupDemo lookupDemo = applicationContext.getBean("lookupDemo", LookupDemo.class);
         Assertions.assertNotSame(lookupDemo.getScopeDemo(), lookupDemo.getScopeDemo());
     }
 }

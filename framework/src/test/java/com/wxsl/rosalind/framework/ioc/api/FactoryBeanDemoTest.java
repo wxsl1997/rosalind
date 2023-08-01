@@ -14,14 +14,14 @@ class FactoryBeanDemoTest extends BaseTest {
     @Test
     @DisplayName("factoryBean")
     void factoryBeanDemo() {
-        MessageDigest messageDigest = applicationContext().getBean("factoryBeanDemo", MessageDigest.class);
+        MessageDigest messageDigest = applicationContext.getBean("factoryBeanDemo", MessageDigest.class);
         Assertions.assertNotNull(messageDigest);
     }
 
     @Test
     @DisplayName("&factoryBean")
     void getObject() throws NoSuchAlgorithmException {
-        FactoryBeanDemo factoryBeanDemo = applicationContext().getBean("&factoryBeanDemo", FactoryBeanDemo.class);
+        FactoryBeanDemo factoryBeanDemo = applicationContext.getBean("&factoryBeanDemo", FactoryBeanDemo.class);
         Assertions.assertNotNull(factoryBeanDemo);
         Assertions.assertNotNull(factoryBeanDemo.getObject());
     }
