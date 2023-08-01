@@ -24,6 +24,7 @@ public class KafkaProducerConfiguration {
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, WxslJsonSerializer.class);
         config.put(ProducerConfig.ACKS_CONFIG, "-1");
         config.put(ProducerConfig.RETRIES_CONFIG, 3);
+        config.put(ProducerConfig.CLIENT_ID_CONFIG,"rosalind-producer-");
         return new DefaultKafkaProducerFactory<>(config);
     }
 

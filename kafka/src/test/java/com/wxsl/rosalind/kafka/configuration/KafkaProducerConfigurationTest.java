@@ -44,7 +44,7 @@ class KafkaProducerConfigurationTest extends BaseTest {
         List<Future<?>> futures = IntStream.rangeClosed(1, threadNum)
                 .mapToObj(index -> (Runnable) () -> {
                     IntStream.range(0, RECORD_NUM).forEach(num -> {
-                        Headers headers = new RecordHeaders().add("tag", "v1".getBytes(StandardCharsets.UTF_8));
+                        Headers headers = new RecordHeaders().add("tag", "amqp".getBytes(StandardCharsets.UTF_8));
                         KafkaPayload data = KafkaPayload.builder().type("test").content(UUID.randomUUID().toString()).time(LocalDateTime.now()).build();
                         ProducerRecord<String, Object> record = new ProducerRecord<>(ROSALIND_TEST_TOPIC, null, null, null, data, headers);
                         kafkaTemplate.send(record);
