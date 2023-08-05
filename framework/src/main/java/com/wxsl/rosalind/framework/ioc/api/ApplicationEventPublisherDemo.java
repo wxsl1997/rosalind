@@ -21,7 +21,7 @@ public class ApplicationEventPublisherDemo {
     }
 
     @Transactional
-    void publishTxEvent(@NonNull Product event) {
+    public void publishTxEvent(@NonNull Product event) {
         applicationEventPublisher.publishEvent(event);
     }
 }

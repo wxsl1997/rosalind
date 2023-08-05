@@ -1,7 +1,7 @@
 package com.wxsl.rosalind.framework.ioc.api;
 
 
-import com.wxsl.rosalind.framework.web.util.TimeUtils;
+import com.wxsl.rosalind.framework.util.TimeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.PropertyEditorSupport;
