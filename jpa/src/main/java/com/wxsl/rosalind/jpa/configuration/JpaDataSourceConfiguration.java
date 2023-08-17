@@ -3,6 +3,7 @@ package com.wxsl.rosalind.jpa.configuration;
 import com.wxsl.rosalind.jpa.model.User;
 import com.wxsl.rosalind.jpa.repository.UserRepository;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -36,8 +37,8 @@ public class JpaDataSourceConfiguration {
     public static final String TX_MANAGER_NAME = "jpaTransactionManager";
 
     @Bean
+    @ConditionalOnMissingBean
     @ConfigurationProperties(prefix = "rosalind.jpa.datasource")
-
     public DataSource dataSource() {
         return new HikariDataSource();
     }

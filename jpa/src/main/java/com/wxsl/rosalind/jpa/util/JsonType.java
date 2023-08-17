@@ -22,7 +22,7 @@ public class JsonType implements UserType, DynamicParameterizedType {
 
     public static final String Json = "com.wxsl.rosalind.jpa.util.JsonType";
 
-    private static final int[] SQL_TYPES = {Types.JAVA_OBJECT};
+    private static final int[] SQL_TYPES = {Types.CLOB};
 
     private final ObjectMapper objectMapper = JsonUtils.objectMapper();
 
