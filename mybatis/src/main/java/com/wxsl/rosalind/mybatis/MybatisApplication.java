@@ -1,30 +1,16 @@
 package com.wxsl.rosalind.mybatis;
 
-import com.wxsl.rosalind.mybatis.mapper.CountryMapper;
-import com.wxsl.rosalind.mybatis.model.Country;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.List;
-
-@FieldDefaults(makeFinal = true)
-@RequiredArgsConstructor
+@Slf4j
 @SpringBootApplication
-public class MybatisApplication implements ApplicationRunner {
-
-    private CountryMapper countryMapper;
+public class MybatisApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MybatisApplication.class, args);
-    }
-
-    @Override
-    public void run(ApplicationArguments args)  {
-        List<Country> all = countryMapper.findAll();
-        System.out.println(all);
+        ConfigurableApplicationContext context = SpringApplication.run(MybatisApplication.class, args);
+        log.info("web context:{}", context);
     }
 }
