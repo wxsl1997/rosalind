@@ -1,7 +1,7 @@
 package com.wxsl.rosalind.mybatis.configuration;
 
-import com.wxsl.rosalind.mybatis.mapper.UserMapper;
-import com.zaxxer.hikari.HikariDataSource;
+import javax.sql.DataSource;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -12,7 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
+import com.wxsl.rosalind.mybatis.mapper.UserMapper;
+import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @MapperScan(basePackageClasses = {UserMapper.class}, sqlSessionFactoryRef = MybatisDataSourceConfiguration.MYBATIS_SESSION_FACTORY)

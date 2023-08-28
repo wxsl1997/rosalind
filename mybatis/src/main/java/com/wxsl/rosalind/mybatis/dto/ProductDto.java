@@ -11,7 +11,7 @@ public class ProductDto {
 
     String name;
 
-    String description;
+    ProductDescDto description;
 
     BigDecimal price;
 

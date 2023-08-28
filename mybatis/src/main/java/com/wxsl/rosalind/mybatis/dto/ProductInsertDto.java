@@ -1,11 +1,11 @@
 package com.wxsl.rosalind.mybatis.dto;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 /**
  * @author wxsl1997
@@ -18,7 +18,7 @@ public class ProductInsertDto {
 
     String name;
 
-    String description;
+    ProductDescDto description;
 
     BigDecimal price;
 

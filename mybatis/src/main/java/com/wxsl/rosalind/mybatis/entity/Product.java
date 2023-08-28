@@ -1,19 +1,27 @@
 package com.wxsl.rosalind.mybatis.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
+import com.wxsl.rosalind.mybatis.util.JsonTypeHandler;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 商品表
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("product")
+@TableName(value = "product", autoResultMap = true)
 public class Product implements Serializable {
 
     static final long serialVersionUID = 1L;
@@ -24,8 +32,8 @@ public class Product implements Serializable {
     @TableField("name")
     String name;
 
-    @TableField("description")
-    String description;
+    @TableField(value = "description", typeHandler = JsonTypeHandler.class)
+    ProductDescDto description;
 
     @TableField("price")
     BigDecimal price;

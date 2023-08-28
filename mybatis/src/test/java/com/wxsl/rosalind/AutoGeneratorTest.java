@@ -97,7 +97,7 @@ public class AutoGeneratorTest {
         return new DataSourceConfig()
                 .setDbType(DbType.MYSQL)
                 .setDriverName("com.mysql.cj.jdbc.Driver")
-                .setUrl("jdbc:mysql://wxsl5.com:3306/rosalind_mybatis")
+                .setUrl("jdbc:mysql://wxsl.com:3306/rosalind_mybatis")
                 .setUsername("root")
                 .setPassword("1250");
     }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wxsl.rosalind.mybatis.configuration.MybatisTransactional;
 import com.wxsl.rosalind.mybatis.converter.ProductConverter;
+import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
 import com.wxsl.rosalind.mybatis.dto.ProductDto;
 import com.wxsl.rosalind.mybatis.dto.ProductInsertDto;
 import com.wxsl.rosalind.mybatis.dto.UpdateDescDto;
@@ -60,7 +61,7 @@ public class ProductService {
             return;
         }
 
-        Map<Long, String> toToDescMap = StreamUtils.putToMap(dtos, UpdateDescDto::getId, UpdateDescDto::getDesc);
+        Map<Long, ProductDescDto> toToDescMap = StreamUtils.putToMap(dtos, UpdateDescDto::getId, UpdateDescDto::getDesc);
 
         List<Product> products = productMapper.selectBatchIds(StreamUtils.map(dtos, UpdateDescDto::getId));
         products.forEach(product -> product.setDescription(toToDescMap.get(product.getId())));

@@ -14,5 +14,5 @@ public class UpdateDescDto {
 
     Long id;
 
-    String desc;
+    ProductDescDto desc;
 }
