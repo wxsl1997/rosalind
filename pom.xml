@@ -9,14 +9,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>framework</module>
+        <module>spring</module>
         <module>security</module>
+        <module>jpa</module>
         <module>mybatis</module>
-        <module>dp</module>
         <module>zk</module>
         <module>kafka</module>
         <module>ch</module>
-        <module>jpa</module>
+        <module>dp</module>
     </modules>
 
     <properties>
