@@ -2,8 +2,8 @@ package com.wxsl.rosalind.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.wxsl.rosalind.mybatis.enumeration.OrderStatusEnum;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.wxsl.rosalind.mybatis.util.IntEnumTypeHandler;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -13,8 +13,11 @@ import java.time.LocalDateTime;
  * 订单表
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("order_info")
+@TableName(value = "order_info", autoResultMap = true)
 public class OrderInfo implements Serializable {
 
     static final long serialVersionUID = 1L;
@@ -34,15 +37,15 @@ public class OrderInfo implements Serializable {
     @TableField("payment")
     BigDecimal payment;
 
-    @TableField("status")
+    @TableField(value = "status", typeHandler = IntEnumTypeHandler.class)
     OrderStatusEnum status;
-
-    @TableField("version")
-    @Version
-    Long version;
 
     @TableField("quantity")
     Integer quantity;
+
+    @Version
+    @TableField(value = "version", fill = FieldFill.INSERT)
+    Long version;
 
     @TableField(value = "created", fill = FieldFill.INSERT)
     LocalDateTime created;
