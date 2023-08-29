@@ -13,13 +13,19 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
 import com.wxsl.rosalind.mybatis.util.JsonTypeHandler;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 商品表
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName(value = "product", autoResultMap = true)
 public class Product implements Serializable {

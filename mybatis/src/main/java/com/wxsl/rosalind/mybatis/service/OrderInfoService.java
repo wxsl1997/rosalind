@@ -1,5 +1,11 @@
 package com.wxsl.rosalind.mybatis.service;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.wxsl.rosalind.mybatis.configuration.MybatisTransactional;
 import com.wxsl.rosalind.mybatis.converter.OrderInfoConverter;
 import com.wxsl.rosalind.mybatis.dto.OrderInfoCreatedDto;
@@ -8,10 +14,6 @@ import com.wxsl.rosalind.mybatis.entity.OrderInfo;
 import com.wxsl.rosalind.mybatis.enumeration.OrderStatusEnum;
 import com.wxsl.rosalind.mybatis.mapper.OrderInfoMapper;
 import com.wxsl.rosalind.mybatis.util.StreamUtils;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author wxsl1997
@@ -37,7 +39,7 @@ public class OrderInfoService {
                 .status(OrderStatusEnum.CREATED)
                 .build());
 
-        orderInfoMapper.insertBatch(rows);
+        orderInfoMapper.saveBatch(rows);
     }
 
     public List<OrderInfoDto> findByTradeId(Long tradeId) {
