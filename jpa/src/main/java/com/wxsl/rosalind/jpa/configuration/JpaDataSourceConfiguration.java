@@ -1,7 +1,7 @@
 package com.wxsl.rosalind.jpa.configuration;
 
-import com.wxsl.rosalind.jpa.model.User;
-import com.wxsl.rosalind.jpa.repository.UserRepository;
+import com.wxsl.rosalind.jpa.model.UserInfo;
+import com.wxsl.rosalind.jpa.repository.UserInfoRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 
 
 @EnableJpaRepositories(
-        basePackageClasses = {UserRepository.class},
+        basePackageClasses = {UserInfoRepository.class},
         repositoryBaseClass = EnhancedJpaRepository.class,
         transactionManagerRef = JpaDataSourceConfiguration.TX_MANAGER_NAME
 )
@@ -50,7 +50,7 @@ public class JpaDataSourceConfiguration {
                                                                        HibernateProperties hibernateProperties) {
         return builder
                 .dataSource(dataSource)
-                .packages(User.class)
+                .packages(UserInfo.class)
                 .persistenceUnit(UNIT_NAME)
                 .properties(hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings()))
                 .build();

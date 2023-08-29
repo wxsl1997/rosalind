@@ -3,8 +3,8 @@ package com.wxsl.rosalind.jpa.service;
 import com.wxsl.rosalind.jpa.command.UserRegisterCommand;
 import com.wxsl.rosalind.jpa.configuration.JpaTransactional;
 import com.wxsl.rosalind.jpa.dto.UserDto;
-import com.wxsl.rosalind.jpa.model.User;
-import com.wxsl.rosalind.jpa.repository.UserRepository;
+import com.wxsl.rosalind.jpa.model.UserInfo;
+import com.wxsl.rosalind.jpa.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(makeFinal = true)
 public class UserService {
 
-    UserRepository userRepository;
+    UserInfoRepository userRepository;
 
     @JpaTransactional
     public void register(UserRegisterCommand command) {
 
-        User user = User.builder()
+        UserInfo user = UserInfo.builder()
                 .username(command.getUsername())
                 .password(command.getPassword())
                 .build();

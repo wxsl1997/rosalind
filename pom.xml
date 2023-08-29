@@ -23,7 +23,7 @@
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
         <cglib.version>3.2.12</cglib.version>
         <guava.version>29.0-jre</guava.version>
-        <h2.version>1.4.199</h2.version>
+        <h2.version>1.4.200</h2.version>
         <javax-inject.veriosn>1</javax-inject.veriosn>
         <mockito.veriosn>3.3.3</mockito.veriosn>
         <openapi-ui.version>1.5.2</openapi-ui.version>

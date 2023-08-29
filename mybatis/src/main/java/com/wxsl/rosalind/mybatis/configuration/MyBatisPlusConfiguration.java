@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.wxsl.rosalind.mybatis.mapper.UserMapper;
+import com.wxsl.rosalind.mybatis.mapper.UserInfoMapper;
 
 @Configuration
 public class MyBatisPlusConfiguration implements MetaObjectHandler {
@@ -22,7 +22,7 @@ public class MyBatisPlusConfiguration implements MetaObjectHandler {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer scannerConfigurer = new MapperScannerConfigurer();
-        scannerConfigurer.setBasePackage(UserMapper.class.getPackage().getName());
+        scannerConfigurer.setBasePackage(UserInfoMapper.class.getPackage().getName());
         return scannerConfigurer;
     }
 

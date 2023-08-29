@@ -16,23 +16,23 @@ import java.util.stream.Stream;
 /**
  * @author wxsl1997
  */
-class UserServiceTest extends BaseTest {
+class UserInfoServiceTest extends BaseTest {
 
     @Resource
-    UserService userService;
+    UserInfoService userInfoService;
 
     @ParameterizedTest
     @MethodSource("registerSourceProvider")
     void register(String username, String password) {
-        Assertions.assertNull(userService.findByUsername(username));
+        Assertions.assertNull(userInfoService.findByUsername(username));
 
         UserRegisterCommand user = UserRegisterCommand.builder()
                 .username(username)
                 .password(password)
                 .build();
-        userService.register(user);
+        userInfoService.register(user);
 
-        UserDto row = userService.findByUsername(username);
+        UserDto row = userInfoService.findByUsername(username);
         Assertions.assertEquals(username, row.getUsername());
         Assertions.assertEquals(password, row.getPassword());
     }

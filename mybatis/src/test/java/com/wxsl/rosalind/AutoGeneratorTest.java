@@ -35,7 +35,7 @@ public class AutoGeneratorTest {
     private static final String TABLE_PREFIX = "";
     private static final boolean OVERRIDE = false;
 
-    @CsvSource({"user", "trade_info", "order_info", "product"})
+    @CsvSource({"user_info", "trade_info", "order_info", "product"})
     @ParameterizedTest
     public void execute(String tables) {
 

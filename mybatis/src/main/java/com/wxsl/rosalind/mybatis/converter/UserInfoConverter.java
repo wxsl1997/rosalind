@@ -1,14 +1,14 @@
 package com.wxsl.rosalind.mybatis.converter;
 
 import com.wxsl.rosalind.mybatis.dto.UserDto;
-import com.wxsl.rosalind.mybatis.entity.User;
+import com.wxsl.rosalind.mybatis.entity.UserInfo;
 import org.mapstruct.Mapper;
 
 /**
  * @author wxsl1997
  */
 @Mapper
-public interface UserConverter {
+public interface UserInfoConverter {
 
-    UserDto toUserDto(User user);
+    UserDto toUserDto(UserInfo user);
 }

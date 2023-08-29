@@ -2,10 +2,10 @@ package com.wxsl.rosalind.mybatis.service;
 
 import com.wxsl.rosalind.mybatis.command.UserRegisterCommand;
 import com.wxsl.rosalind.mybatis.configuration.MybatisTransactional;
-import com.wxsl.rosalind.mybatis.converter.UserConverter;
+import com.wxsl.rosalind.mybatis.converter.UserInfoConverter;
 import com.wxsl.rosalind.mybatis.dto.UserDto;
-import com.wxsl.rosalind.mybatis.entity.User;
-import com.wxsl.rosalind.mybatis.mapper.UserMapper;
+import com.wxsl.rosalind.mybatis.entity.UserInfo;
+import com.wxsl.rosalind.mybatis.mapper.UserInfoMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,30 +14,30 @@ import javax.annotation.Resource;
  * @author wxsl1997
  */
 @Service
-public class UserService {
+public class UserInfoService {
 
     @Resource
-    UserMapper userMapper;
+    UserInfoMapper userInfoMapper;
 
     @Resource
-    UserConverter userConverter;
+    UserInfoConverter userInfoConverter;
 
 
     @MybatisTransactional
     public void register(UserRegisterCommand command) {
 
-        User user = User.builder()
+        UserInfo user = UserInfo.builder()
                 .username(command.getUsername())
                 .password(command.getPassword())
                 .build();
 
         // save user
-        userMapper.insert(user);
+        userInfoMapper.insert(user);
     }
 
     public UserDto findByUsername(String username) {
-        User user = userMapper.findByUsername(username);
+        UserInfo user = userInfoMapper.findByUsername(username);
 
-        return userConverter.toUserDto(user);
+        return userInfoConverter.toUserDto(user);
     }
 }

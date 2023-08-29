@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.wxsl.rosalind.mybatis.mapper.UserMapper;
+import com.wxsl.rosalind.mybatis.mapper.UserInfoMapper;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@MapperScan(basePackageClasses = {UserMapper.class}, sqlSessionFactoryRef = MybatisDataSourceConfiguration.MYBATIS_SESSION_FACTORY)
+@MapperScan(basePackageClasses = {UserInfoMapper.class}, sqlSessionFactoryRef = MybatisDataSourceConfiguration.MYBATIS_SESSION_FACTORY)
 @EnableTransactionManagement
 public class MybatisDataSourceConfiguration {
 

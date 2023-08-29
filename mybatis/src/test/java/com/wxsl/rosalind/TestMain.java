@@ -17,9 +17,9 @@ public class TestMain {
     @Bean
     @Profile("mock")
     public DataSource dataSource() {
-        EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
-        return embeddedDatabaseBuilder
+        return  new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
+                .addScript("rosalind-mybatis-schema.sql")
                 .build();
     }
 
