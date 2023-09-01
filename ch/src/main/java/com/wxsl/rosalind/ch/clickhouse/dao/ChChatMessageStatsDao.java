@@ -26,6 +26,7 @@ public class ChChatMessageStatsDao {
     private static final ImmutableMap<String, Function<ChChatMessageStatsDto, Object>> CH_CHAT_MESSAGE_FILED_AND_FUNC_MAP = ImmutableMap.<String, Function<ChChatMessageStatsDto, Object>>builder()
             .put("`message_id`", ChChatMessageStatsDto::getMessageId)
             .put("`date_time`", d -> TimeUtils.format(d.getDateTime()))
+            .put("`sync_time`", ChChatMessageStatsDto::getSyncTime)
             .put("`sender_ww_nick`", ChChatMessageStatsDto::getSenderWwNick)
             .put("`sender_open_uid`", ChChatMessageStatsDto::getSenderOpenUid)
             .put("`receiver_ww_nick`", ChChatMessageStatsDto::getReceiverWwNick)

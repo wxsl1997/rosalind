@@ -1,7 +1,6 @@
 package com.wxsl.rosalind.ch.clickhouse.service;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 import com.wxsl.rosalind.ch.clickhouse.dao.ChChatMessageStatsDao;
 import com.wxsl.rosalind.ch.clickhouse.dto.ChChatMessageStatsDto;
 import lombok.AccessLevel;
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
@@ -28,16 +28,16 @@ public class ChChatMessageStatsService {
 
     public void run() {
 
-        List<ChChatMessageStatsDto> data = new ArrayList<>(100_000);
+        int round = 1_000;
+        int capacity = 100_000;
 
+        List<ChChatMessageStatsDto> data = new ArrayList<>(capacity);
         Stopwatch stopWatch = Stopwatch.createUnstarted();
-
-
-        for (int i = 1; i <= 1_000; i++) {
+        for (int i = 1; i <= round; i++) {
 
             stopWatch.start();
 
-            IntStream.range(0, 50_000).forEach(num -> data.add(createChChatMessageStatsDto()));
+            IntStream.range(0, capacity).forEach(num -> data.add(createChChatMessageStatsDto()));
 
             chChatMessageStatsDao.batchInsert(data);
 
@@ -53,13 +53,14 @@ public class ChChatMessageStatsService {
 
         ChChatMessageStatsDto row = new ChChatMessageStatsDto();
         row.setMessageId(System.nanoTime() + ".PNM");
-        row.setDateTime(LocalDateTime.now().minusDays((long) (Math.random() * 90)));
+        row.setDateTime(LocalDateTime.now().minusDays((long) (Math.random() * 4)));
 
         boolean prob = Math.random() > 0.8;
 
         row.setSenderWwNick(prob);
         row.setSenderOpenUid(prob);
         row.setReceiverWwNick(prob);
+        row.setSyncTime(prob);
         row.setReceiverOpenUid(prob);
         row.setSenderMainAccountWwNick(prob);
         row.setSenderMainAccountOpenUid(prob);
@@ -74,7 +75,7 @@ public class ChChatMessageStatsService {
         row.setChatContentType((int) (Math.random() * 4));
         row.setMessageType((int) (Math.random() * 4));
 
-        row.setPartnerBizid(prob ? Lists.newArrayList("partnerBizid-1", "partnerBizid-2") : Lists.newArrayList());
+        row.setPartnerBizid(IntStream.range(0, (int) (5 * Math.random())).mapToObj(n -> "partnerBizid" + n).collect(Collectors.toList()));
         row.setPageSource(prob ? "pageSource-1" : "pageSource-2");
         row.setKitCode(prob ? "kitCode-1" : "kitCode-2");
         row.setCategory(prob ? "category-1" : "category-2");

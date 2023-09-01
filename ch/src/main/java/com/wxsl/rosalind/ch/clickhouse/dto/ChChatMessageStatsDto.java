@@ -12,6 +12,7 @@ public class ChChatMessageStatsDto {
     LocalDateTime dateTime;
 
     Boolean senderWwNick;
+    Boolean syncTime;
     Boolean senderOpenUid;
     Boolean receiverWwNick;
     Boolean receiverOpenUid;
