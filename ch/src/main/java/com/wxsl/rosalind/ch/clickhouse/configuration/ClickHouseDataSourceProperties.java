@@ -15,4 +15,6 @@ public class ClickHouseDataSourceProperties {
     String username;
 
     String password;
+
+    Long timeout = 3600 * 1000L;
 }
