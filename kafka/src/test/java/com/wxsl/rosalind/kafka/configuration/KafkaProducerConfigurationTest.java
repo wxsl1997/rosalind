@@ -55,7 +55,5 @@ class KafkaProducerConfigurationTest extends BaseTest {
 
         // wait for sub thread
         FutureUtils.runAll(futures);
-
-        ThreadUtils.sleep(10L, TimeUnit.SECONDS);
     }
 }

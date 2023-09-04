@@ -29,6 +29,8 @@ public class KafkaConsumerConfiguration {
 
     private static final String ROSALIND_CONSUMER_GROUP = "rosalind-consumer-group";
 
+    private static final String ROSALIND_CONSUMER_DLT_GROUP = "rosalind-consumer-dlt-group";
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Object> containerFactory(ConsumerFactory<String, Object> consumerFactory, KafkaTemplate<String, Object> kafkaTemplate) {
         ConcurrentKafkaListenerContainerFactory<String, Object> container = new ConcurrentKafkaListenerContainerFactory<>();
@@ -71,7 +73,7 @@ public class KafkaConsumerConfiguration {
         //throw new RuntimeException("consume kafka message failed");
     }
 
-    @KafkaListener(clientIdPrefix = "rosalind-dlt-consumer-", groupId = ROSALIND_CONSUMER_GROUP, topics = ROSALIND_TEST_TOPIC_DLT, containerFactory = "deadLetterContainerFactory")
+    @KafkaListener(clientIdPrefix = "rosalind-dlt-consumer-", groupId = ROSALIND_CONSUMER_DLT_GROUP, topics = ROSALIND_TEST_TOPIC_DLT, containerFactory = "deadLetterContainerFactory")
     public void dltConsumer(List<ConsumerRecord<String, String>> records) {
         log.info("start consume dead letter kafka message, size: {}", records.size());
         //throw new RuntimeException("consume kafka dead letter message failed");

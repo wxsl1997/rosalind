@@ -2,13 +2,11 @@ package com.wxsl.rosalind.base;
 
 import com.wxsl.rosalind.TestMain;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.Resource;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -17,9 +15,6 @@ import java.util.concurrent.TimeUnit;
 @ExtendWith({SpringExtension.class})
 @TestPropertySource(value = {"classpath:config/test.properties"})
 public abstract class BaseTest {
-
-    @Resource
-    protected ApplicationContext applicationContext;
 
     protected static ThreadPoolExecutor newThreadPoolExecutor(int threadNum, String threadNamePrefix) {
 

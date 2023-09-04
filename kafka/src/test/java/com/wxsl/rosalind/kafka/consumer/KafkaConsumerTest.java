@@ -43,7 +43,6 @@ class KafkaConsumerTest extends BaseTest {
 
             consumer.subscribe(Lists.newArrayList(TOPIC));
 
-
             while (running.get()) {
                 ConsumerRecords<String, String> consumerRecords = consumer.poll(Duration.ofMillis(1000));
 

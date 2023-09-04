@@ -27,13 +27,14 @@ import java.util.stream.IntStream;
 class KafkaProducerTest extends BaseTest {
 
     public static final int RECORD_NUM = 100;
+
     public static final String TOPIC = "rosalind-api-test-topic";
+
     @Resource
     KafkaProperties kafkaProperties;
 
     @Test
     public void send() {
-
         // kafka producer is thread safe
         try (KafkaProducer<String, Object> producer = new KafkaProducer<>(kafkaProducerConfig())) {
             IntStream.range(0, RECORD_NUM).forEach(num -> {
@@ -60,5 +61,4 @@ class KafkaProducerTest extends BaseTest {
 
         return properties;
     }
-
 }
