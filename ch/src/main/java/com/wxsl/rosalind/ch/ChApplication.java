@@ -38,9 +38,6 @@ public class ChApplication implements ApplicationRunner, CommandLineRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-
-        chChatMessageStatsSearchDao.stats();
-
         int valueNum = 77;
 
         int[][] kpi = new int[valueNum][valueNum];

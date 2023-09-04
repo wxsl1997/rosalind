@@ -4,7 +4,6 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,27 +27,7 @@ public class ChChatMessageStatsSearchDao {
 
     JdbcTemplate jdbcTemplate;
 
-
-    @SneakyThrows
-    public void stats() {
-        Scanner scanner = new Scanner(new File("/Users/wxsl1997/code/tech/rosalind/ch/src/main/resources/col-6400.sql"));
-        StringBuilder sql = new StringBuilder();
-        while (scanner.hasNext()) {
-            sql.append(" ").append(scanner.next());
-        }
-
-
-        String enhance = "set max_ast_elements=500000, max_query_size=10737418240, max_memory_usage=21474836480, max_execution_time=1800;" + sql;
-
-        jdbcTemplate.query(enhance, (ResultSetExtractor<Object>) rs -> {
-            ResultSetMetaData metaData = rs.getMetaData();
-            System.out.println(metaData);
-            return metaData;
-        });
-    }
-
     public void scrollData(Consumer<List<boolean[]>> callback) throws FileNotFoundException {
-
 
         Scanner scanner = new Scanner(new File("/Users/wxsl1997/code/tech/rosalind/ch/src/main/resources/col-stream.sql"));
 
@@ -66,9 +45,7 @@ public class ChChatMessageStatsSearchDao {
 
             int columnCount = metaData.getColumnCount();
 
-
             int count = 0;
-
             int batchSize = 100000;
             List<boolean[]> dataSlice = new ArrayList<>(batchSize);
 
