@@ -1,13 +1,12 @@
 package com.wxsl.rosalind.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.wxsl.rosalind.mybatis.configuration.AuditableEntity;
 import com.wxsl.rosalind.mybatis.enumeration.TradeStatusEnum;
 import com.wxsl.rosalind.mybatis.util.IntEnumTypeHandler;
 import lombok.*;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * 交易表
@@ -16,9 +15,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "trade_info", autoResultMap = true)
-public class TradeInfo implements Serializable {
+public class TradeInfo extends AuditableEntity {
 
     static final long serialVersionUID = 1L;
 
@@ -37,10 +36,4 @@ public class TradeInfo implements Serializable {
     @TableField(value = "version", fill = FieldFill.INSERT)
     @Version
     Long version;
-
-    @TableField(value = "created", fill = FieldFill.INSERT)
-    LocalDateTime created;
-
-    @TableField(value = "modified", fill = FieldFill.INSERT_UPDATE)
-    LocalDateTime modified;
 }

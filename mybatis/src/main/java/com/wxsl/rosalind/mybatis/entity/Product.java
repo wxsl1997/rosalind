@@ -1,23 +1,12 @@
 package com.wxsl.rosalind.mybatis.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
+import com.wxsl.rosalind.mybatis.configuration.AuditableEntity;
 import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
 import com.wxsl.rosalind.mybatis.util.JsonTypeHandler;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 /**
  * 商品表
@@ -26,11 +15,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName(value = "product", autoResultMap = true)
-public class Product implements Serializable {
-
-    static final long serialVersionUID = 1L;
+public class Product extends AuditableEntity {
 
     @TableId(value = "id", type = IdType.AUTO)
     Long id;
@@ -50,10 +37,4 @@ public class Product implements Serializable {
     @TableField(value = "version", fill = FieldFill.INSERT)
     @Version
     Long version;
-
-    @TableField(value = "created", fill = FieldFill.INSERT)
-    LocalDateTime created;
-
-    @TableField(value = "modified", fill = FieldFill.INSERT_UPDATE)
-    LocalDateTime modified;
 }

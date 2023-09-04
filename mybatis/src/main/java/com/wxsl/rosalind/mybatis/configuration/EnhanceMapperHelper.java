@@ -1,15 +1,5 @@
 package com.wxsl.rosalind.mybatis.configuration;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.function.BiConsumer;
-
-import org.apache.ibatis.binding.MapperMethod;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.core.GenericTypeResolver;
-
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
@@ -19,8 +9,16 @@ import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-
 import lombok.experimental.UtilityClass;
+import org.apache.ibatis.binding.MapperMethod;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.core.GenericTypeResolver;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.BiConsumer;
 
 /**
  * @author wxsl1997
@@ -41,8 +39,7 @@ public final class EnhanceMapperHelper {
      * @see ServiceImpl#saveOrUpdate(java.lang.Object)
      */
     public static <T> int saveOrUpdate(EnhancedMapper<T> proxyMapper, T entity) {
-        Class<?> mapper = deduceMapper(proxyMapper);
-        Class<?> entityClass = GenericTypeResolver.resolveTypeArgument(mapper, EnhancedMapper.class);
+        Class<?> entityClass = entityClass(proxyMapper);
         TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
@@ -70,5 +67,11 @@ public final class EnhanceMapperHelper {
     private static <T> Class<?> deduceMapper(EnhancedMapper<T> proxyMapper) {
         //noinspection OptionalGetWithoutIsPresent
         return Arrays.stream(proxyMapper.getClass().getInterfaces()).filter(EnhancedMapper.class::isAssignableFrom).findFirst().get();
+    }
+
+    public static <T> Class<T> entityClass(EnhancedMapper<T> proxyMapper) {
+        Class<?> mapper = deduceMapper(proxyMapper);
+        //noinspection unchecked
+        return (Class<T>) GenericTypeResolver.resolveTypeArgument(mapper, EnhancedMapper.class);
     }
 }

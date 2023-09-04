@@ -1,10 +1,8 @@
 package com.wxsl.rosalind.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.wxsl.rosalind.mybatis.configuration.AuditableEntity;
 import lombok.*;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 用户表
@@ -13,9 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("user_info")
-public class UserInfo implements Serializable {
+public class UserInfo extends AuditableEntity {
 
     static final long serialVersionUID = 1L;
 
@@ -31,10 +29,4 @@ public class UserInfo implements Serializable {
     @TableField(value = "version", fill = FieldFill.INSERT)
     @Version
     Long version;
-
-    @TableField(value = "created", fill = FieldFill.INSERT)
-    LocalDateTime created;
-
-    @TableField(value = "modified", fill = FieldFill.INSERT_UPDATE)
-    LocalDateTime modified;
 }

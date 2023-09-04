@@ -13,8 +13,6 @@ import org.mapstruct.Mapping;
 public interface ProductConverter {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "created", ignore = true)
-    @Mapping(target = "modified", ignore = true)
     @Mapping(target = "version", ignore = true)
     Product toProduct(ProductInsertDto user);
 

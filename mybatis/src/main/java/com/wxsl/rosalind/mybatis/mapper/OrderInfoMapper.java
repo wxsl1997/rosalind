@@ -15,15 +15,13 @@ public interface OrderInfoMapper extends EnhancedMapper<OrderInfo> {
         if (CollectionUtils.isEmpty(ids)) {
             return Lists.newArrayList();
         }
-        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(OrderInfo::getUserId, userId);
-        queryWrapper.in(OrderInfo::getId, ids);
-        return this.selectList(queryWrapper);
+        LambdaQueryWrapper<OrderInfo> wrapper = lambdaWrapper()
+                .eq(OrderInfo::getUserId, userId)
+                .in(OrderInfo::getId, ids);
+        return this.selectList(wrapper);
     }
 
     default List<OrderInfo> findByTradeId(Long tradeId) {
-        LambdaQueryWrapper<OrderInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(OrderInfo::getTradeId, tradeId);
-        return this.selectList(queryWrapper);
+        return this.selectList(lambdaWrapper().eq(OrderInfo::getTradeId, tradeId));
     }
 }
