@@ -3,12 +3,11 @@ package com.wxsl.rosalind.mybatis.configuration;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
-import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.google.common.collect.Lists;
+import com.wxsl.rosalind.mybatis.util.StreamUtils;
 import lombok.experimental.UtilityClass;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.logging.Log;
@@ -16,9 +15,13 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.core.GenericTypeResolver;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 /**
  * @author wxsl1997
@@ -36,16 +39,41 @@ public final class EnhanceMapperHelper {
     }
 
     /**
-     * @see ServiceImpl#saveOrUpdate(java.lang.Object)
+     * @see ServiceImpl#saveOrUpdate(Object)
      */
-    public static <T> int saveOrUpdate(EnhancedMapper<T> proxyMapper, T entity) {
+    public <T> void saveOrUpdateBatch(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return;
+        }
+
         Class<?> entityClass = entityClass(proxyMapper);
         TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-        Object idVal = ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
-        return StringUtils.checkValNull(idVal) ? proxyMapper.insert(entity) : proxyMapper.updateById(entity);
+
+
+        List<Serializable> ids = entities.stream().map(entity -> (Serializable) ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty())).filter(StringUtils::checkValNotNull).collect(Collectors.toList());
+
+        List<T> existEntities = CollectionUtils.isEmpty(ids)
+                ? Lists.newArrayList()
+                : proxyMapper.selectBatchIds(ids);
+        Set<Serializable> existIds = StreamUtils.mapAsSet(existEntities, entity -> (Serializable) ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty()));
+
+
+        Class<?> mapper = deduceMapper(proxyMapper);
+
+        executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> {
+            Serializable id = (Serializable) ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
+            // execute insert if idVal is null or selectById is null
+            if (StringUtils.checkValNull(id) || !existIds.contains(id)) {
+                proxyMapper.insert(entity);
+            }
+            // or else execute update by id
+            else {
+                proxyMapper.updateById(entity);
+            }
+        });
     }
 
     public static <T> void updateBatchByIds(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {

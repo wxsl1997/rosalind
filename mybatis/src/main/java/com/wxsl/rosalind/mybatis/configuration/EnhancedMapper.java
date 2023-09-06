@@ -2,6 +2,7 @@ package com.wxsl.rosalind.mybatis.configuration;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
 
@@ -21,12 +22,12 @@ public interface EnhancedMapper<T> extends BaseMapper<T> {
         EnhanceMapperHelper.updateBatchByIds(this, entities, DEFAULT_BATCH_SIZE);
     }
 
-    default int saveOrUpdate(T entity) {
-        return EnhanceMapperHelper.saveOrUpdate(this, entity);
+    default void saveOrUpdate(T entity) {
+        EnhanceMapperHelper.saveOrUpdateBatch(this, Lists.newArrayList(entity), DEFAULT_BATCH_SIZE);
     }
 
-    default int saveOrUpdateBatch(Collection<T> entities) {
-        return entities.stream().mapToInt(this::saveOrUpdate).sum();
+    default void saveOrUpdateBatch(Collection<T> entities) {
+        EnhanceMapperHelper.saveOrUpdateBatch(this, entities, DEFAULT_BATCH_SIZE);
     }
 
     default LambdaQueryWrapper<T> lambdaWrapper() {
