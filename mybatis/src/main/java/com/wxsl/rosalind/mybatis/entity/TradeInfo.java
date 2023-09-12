@@ -21,7 +21,7 @@ public class TradeInfo extends AuditableEntity {
 
     static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     Long id;
 
     @TableField("user_id")

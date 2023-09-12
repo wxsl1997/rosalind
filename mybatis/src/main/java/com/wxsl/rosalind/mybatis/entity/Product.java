@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 @TableName(value = "product", autoResultMap = true)
 public class Product extends AuditableEntity {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     Long id;
 
     @TableField("name")
