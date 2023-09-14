@@ -32,18 +32,18 @@ public final class EnhanceMapperHelper {
     /**
      * @see ServiceImpl#saveBatch(Collection)
      */
-    public static <T> void saveBatch(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
+    public static <T> boolean saveBatch(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
         Class<?> mapper = deduceMapper(proxyMapper);
         String sqlStatement = SqlHelper.getSqlStatement(mapper, SqlMethod.INSERT_ONE);
-        executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
+        return executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
 
     /**
      * @see ServiceImpl#saveOrUpdate(Object)
      */
-    public <T> void saveOrUpdateBatch(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
+    public <T> boolean saveOrUpdateBatch(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
         if (CollectionUtils.isEmpty(entities)) {
-            return;
+            return false;
         }
 
         Class<?> entityClass = entityClass(proxyMapper);
@@ -63,7 +63,7 @@ public final class EnhanceMapperHelper {
 
         Class<?> mapper = deduceMapper(proxyMapper);
 
-        executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> {
+        return executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> {
             Serializable id = (Serializable) ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
             // execute insert if idVal is null or selectById is null
             if (StringUtils.checkValNull(id) || !existIds.contains(id)) {
@@ -76,20 +76,20 @@ public final class EnhanceMapperHelper {
         });
     }
 
-    public static <T> void updateBatchByIds(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
+    public static <T> boolean updateBatchByIds(EnhancedMapper<T> proxyMapper, Collection<T> entities, int batchSize) {
         Class<?> mapper = deduceMapper(proxyMapper);
         String sqlStatement = SqlHelper.getSqlStatement(mapper, SqlMethod.UPDATE_BY_ID);
-        executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> {
+        return executeBatch(mapper, entities, batchSize, (sqlSession, entity) -> {
             MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
             param.put(Constants.ENTITY, entity);
             sqlSession.update(sqlStatement, param);
         });
     }
 
-    private static <T> void executeBatch(Class<?> mapper, Collection<T> entities, int batchSize, BiConsumer<SqlSession, T> consumer) {
+    private static <T> boolean executeBatch(Class<?> mapper, Collection<T> entities, int batchSize, BiConsumer<SqlSession, T> consumer) {
         Class<?> entityClass = GenericTypeResolver.resolveTypeArgument(mapper, EnhancedMapper.class);
         Log log = LogFactory.getLog(mapper);
-        SqlHelper.executeBatch(entityClass, log, entities, batchSize, consumer);
+        return SqlHelper.executeBatch(entityClass, log, entities, batchSize, consumer);
     }
 
     private static <T> Class<?> deduceMapper(EnhancedMapper<T> proxyMapper) {
@@ -97,7 +97,7 @@ public final class EnhanceMapperHelper {
         return Arrays.stream(proxyMapper.getClass().getInterfaces()).filter(EnhancedMapper.class::isAssignableFrom).findFirst().get();
     }
 
-    public static <T> Class<T> entityClass(EnhancedMapper<T> proxyMapper) {
+    private static <T> Class<T> entityClass(EnhancedMapper<T> proxyMapper) {
         Class<?> mapper = deduceMapper(proxyMapper);
         //noinspection unchecked
         return (Class<T>) GenericTypeResolver.resolveTypeArgument(mapper, EnhancedMapper.class);

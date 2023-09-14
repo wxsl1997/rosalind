@@ -14,20 +14,20 @@ public interface EnhancedMapper<T> extends BaseMapper<T> {
 
     int DEFAULT_BATCH_SIZE = 1000;
 
-    default void saveBatch(Collection<T> entities) {
-        EnhanceMapperHelper.saveBatch(this, entities, DEFAULT_BATCH_SIZE);
+    default boolean saveBatch(Collection<T> entities) {
+        return EnhanceMapperHelper.saveBatch(this, entities, DEFAULT_BATCH_SIZE);
     }
 
-    default void updateBatchByIds(Collection<T> entities) {
-        EnhanceMapperHelper.updateBatchByIds(this, entities, DEFAULT_BATCH_SIZE);
+    default boolean updateBatchByIds(Collection<T> entities) {
+        return EnhanceMapperHelper.updateBatchByIds(this, entities, DEFAULT_BATCH_SIZE);
     }
 
-    default void saveOrUpdate(T entity) {
-        EnhanceMapperHelper.saveOrUpdateBatch(this, Lists.newArrayList(entity), DEFAULT_BATCH_SIZE);
+    default boolean saveOrUpdate(T entity) {
+        return EnhanceMapperHelper.saveOrUpdateBatch(this, Lists.newArrayList(entity), DEFAULT_BATCH_SIZE);
     }
 
-    default void saveOrUpdateBatch(Collection<T> entities) {
-        EnhanceMapperHelper.saveOrUpdateBatch(this, entities, DEFAULT_BATCH_SIZE);
+    default boolean saveOrUpdateBatch(Collection<T> entities) {
+        return EnhanceMapperHelper.saveOrUpdateBatch(this, entities, DEFAULT_BATCH_SIZE);
     }
 
     default LambdaQueryWrapper<T> lambdaWrapper() {
