@@ -1,22 +1,20 @@
 package com.wxsl.rosalind.mybatis.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import javax.annotation.Resource;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import com.wxsl.rosalind.base.BaseTest;
 import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
 import com.wxsl.rosalind.mybatis.dto.ProductDto;
 import com.wxsl.rosalind.mybatis.dto.ProductInsertDto;
 import com.wxsl.rosalind.mybatis.dto.UpdateDescDto;
 import com.wxsl.rosalind.mybatis.util.StreamUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author wxsl1997

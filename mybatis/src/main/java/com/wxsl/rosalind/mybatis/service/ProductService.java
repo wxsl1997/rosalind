@@ -1,16 +1,6 @@
 package com.wxsl.rosalind.mybatis.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wxsl.rosalind.mybatis.configuration.MybatisTransactional;
 import com.wxsl.rosalind.mybatis.converter.ProductConverter;
 import com.wxsl.rosalind.mybatis.dto.ProductDescDto;
@@ -20,6 +10,13 @@ import com.wxsl.rosalind.mybatis.dto.UpdateDescDto;
 import com.wxsl.rosalind.mybatis.entity.Product;
 import com.wxsl.rosalind.mybatis.mapper.ProductMapper;
 import com.wxsl.rosalind.mybatis.util.StreamUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author wxsl1997
@@ -72,7 +69,7 @@ public class ProductService {
     }
 
     public List<ProductDto> selectAll() {
-        List<Product> products = productMapper.selectList(new QueryWrapper<>());
+        List<Product> products = productMapper.findAll();
         return StreamUtils.map(products, product -> productConverter.toProductDto(product));
     }
 }

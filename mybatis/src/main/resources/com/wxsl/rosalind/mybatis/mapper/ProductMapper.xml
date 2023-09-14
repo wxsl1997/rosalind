@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wxsl.rosalind.mybatis.mapper.ProductMapper">
 
+    <resultMap type="com.wxsl.rosalind.mybatis.entity.Product" id="product">
+        <result property="description" column="description" typeHandler="com.wxsl.rosalind.mybatis.util.JsonTypeHandler"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="product">
+        select *
+        from product
+    </select>
+
 </mapper>
