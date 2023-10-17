@@ -19,7 +19,6 @@ import java.util.Properties;
 @EnableConfigurationProperties(ClickHouseDataSourceProperties.class)
 public class ChDataSourceConfiguration {
 
-    public static final String SOCKET_TIMEOUT = "socket_timeout";
 
     @Bean
     ClickHouseDataSource clickHouseDataSource(ClickHouseDataSourceProperties properties) throws SQLException {
@@ -28,8 +27,6 @@ public class ChDataSourceConfiguration {
         Optional.ofNullable(properties.getUsername()).filter(StringUtils::hasLength).ifPresent(value -> config.put(ClickHouseDefaults.USER.getKey(), value));
         // password
         Optional.ofNullable(properties.getPassword()).filter(StringUtils::hasLength).ifPresent(value -> config.put(ClickHouseDefaults.PASSWORD.getKey(), value));
-        // socket_timeout
-        config.put(SOCKET_TIMEOUT, properties.getTimeout());
         return new ClickHouseDataSource(properties.getUrl(), config);
     }
 
