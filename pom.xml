@@ -13,10 +13,10 @@
         <module>security</module>
         <module>jpa</module>
         <module>mybatis</module>
-        <module>zk</module>
+        <module>zookeeper</module>
         <module>kafka</module>
-        <module>ch</module>
-        <module>dp</module>
+        <module>clickhouse</module>
+        <module>design-pattern</module>
     </modules>
 
     <properties>
